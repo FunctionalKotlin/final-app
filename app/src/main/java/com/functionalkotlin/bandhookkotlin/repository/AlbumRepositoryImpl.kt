@@ -11,7 +11,7 @@ import com.functionalkotlin.bandhookkotlin.functional.asError
 import com.functionalkotlin.bandhookkotlin.functional.firstSuccessIn
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
-class AlbumRepositoryImpl(val albumDataSets: List<AlbumDataSet>) : AlbumRepository {
+class AlbumRepositoryImpl(private val albumDataSets: List<AlbumDataSet>) : AlbumRepository {
 
     override fun getAlbum(id: String): AsyncResult<Album, AlbumNotFound> =
         firstSuccessIn(
