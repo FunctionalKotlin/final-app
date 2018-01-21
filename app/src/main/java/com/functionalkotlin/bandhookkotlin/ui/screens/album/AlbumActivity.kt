@@ -85,13 +85,7 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
         presenter.init(getNavigationId())
-    }
-
-    override fun onPause() {
-        super.onPause()
-        presenter.onPause()
     }
 
     override fun showAlbum(albumDetail: AlbumDetail?) {

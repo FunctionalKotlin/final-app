@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import com.functionalkotlin.bandhookkotlin.di.ActivityModule
 import com.functionalkotlin.bandhookkotlin.di.scope.ActivityScope
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetAlbumDetailInteractor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
@@ -33,6 +32,6 @@ class AlbumActivityModule(activity: AlbumActivity) : ActivityModule(activity) {
     @Provides
     @ActivityScope
     fun provideAlbumPresenter(
-        view: AlbumView, bus: Bus, albumInteractor: GetAlbumDetailInteractor) =
-        AlbumPresenter(view, bus, albumInteractor)
+        view: AlbumView, albumInteractor: GetAlbumDetailInteractor) =
+        AlbumPresenter(view, albumInteractor)
 }
