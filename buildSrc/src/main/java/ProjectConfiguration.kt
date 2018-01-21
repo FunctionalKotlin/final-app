@@ -1,6 +1,6 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-val kotlinVersion = "1.2.10"
+val kotlinVersion = "1.2.20"
 val androidGradleVersion = "2.3.3"
 
 // Compile dependencies
