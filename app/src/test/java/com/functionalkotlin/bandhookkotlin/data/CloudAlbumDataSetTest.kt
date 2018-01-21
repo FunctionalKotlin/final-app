@@ -65,8 +65,8 @@ class CloudAlbumDataSetTest : StringSpec() {
         "requestTopAlbums with valid artist mbid returns valid list" {
             val asyncResult = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID)
 
-            verify(lastFmService).requestAlbums(ARTIST_MBID, "")
             asyncResult.asSuccess { shouldBe(transform(lastFmResponse.topAlbums.albums)) }
+            verify(lastFmService).requestAlbums(ARTIST_MBID, "")
         }
 
         "requestTopAlbums with invalid arguments returns error" {
