@@ -13,85 +13,74 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
 import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
-import org.junit.Assert.assertEquals
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.specs.StringSpec
 import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
 
-@RunWith(MockitoJUnitRunner::class)
-class CloudArtistDataSetTest {
+class CloudArtistDataSetTest : StringSpec() {
 
-    @Mock
-    lateinit var lastFmService: LastFmService
+    init {
+        val language = "lang"
 
-    lateinit var lastFmResponse: LastFmResponse
-    lateinit var recommendedArtistList: List<LastFmArtist>
-    lateinit var lastFmArtist: LastFmArtist
+        val lastFmAlbumDetail = LastFmAlbumDetail(
+            "album name", ARTIST_MBID, "album url", "album artist", "album release", emptyList(),
+            LastFmTracklist(emptyList()))
 
-    lateinit var cloudArtistDataSet: CloudArtistDataSet
+        val lastFmArtist = LastFmArtist("name", ARTIST_MBID, "url", null, null, null)
 
-    private val artistMbid = "artist mbid"
-    private val language = "lang"
+        val lastFmResponse = lastFmResponse(lastFmArtist, lastFmAlbumDetail)
 
-    private val lastFmAlbumDetail = LastFmAlbumDetail("album name", artistMbid, "album url", "album artist", "album release",
-        emptyList(), LastFmTracklist(emptyList()))
+        val lastFmService = mock<LastFmService> {
+            on { requestSimilar(anyString()) }.doReturn(fakeCall(lastFmResponse))
+            on { requestArtistInfo(ARTIST_MBID, language) }.doReturn(fakeCall(lastFmResponse))
+        }
 
-    @Before
-    fun setUp() {
-        lastFmArtist = LastFmArtist("artist name", artistMbid, "artist url", null, null, null)
-        recommendedArtistList = listOf(lastFmArtist)
+        val cloudArtistDataSet = CloudArtistDataSet(language, lastFmService)
 
-        lastFmResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())),
-            lastFmArtist, LastFmTopAlbums(emptyList()), LastFmArtistList(recommendedArtistList),
-            lastFmAlbumDetail)
+        "requestRecommendedArtists returns recommended artists" {
+            val artists = cloudArtistDataSet.requestRecommendedArtists()
 
-        cloudArtistDataSet = CloudArtistDataSet(language, lastFmService)
+            verify(lastFmService).requestSimilar(cloudArtistDataSet.coldplayMbid)
+            artists shouldBe transform(listOf(lastFmArtist))
+        }
 
-        `when`(lastFmService.requestSimilar(cloudArtistDataSet.coldplayMbid)).thenReturn(FakeCall(Response.success(lastFmResponse), null))
-        `when`(lastFmService.requestArtistInfo(artistMbid, language)).thenReturn(FakeCall(Response.success(lastFmResponse), null))
+        "requestArtist should return artist" {
+            val artist = cloudArtistDataSet.requestArtist(ARTIST_MBID)
+
+            verify(lastFmService).requestArtistInfo(ARTIST_MBID, language)
+            artist shouldBe transform(lastFmArtist)
+        }
+
+        "requestArtist should return null if unknown id" {
+            val unknownMbid = "unknown"
+
+            val unknownArtistResponse = lastFmResponse(
+                LastFmArtist("unknown artist name", null, "unknown artist url"), lastFmAlbumDetail)
+
+            whenever(lastFmService.requestArtistInfo(unknownMbid, language))
+                .thenReturn(fakeCall(unknownArtistResponse))
+
+            val artist = cloudArtistDataSet.requestArtist(unknownMbid)
+
+            verify(lastFmService).requestArtistInfo(unknownMbid, language)
+            artist shouldBe null
+        }
     }
 
-    @Test
-    fun testRequestRecommendedArtists() {
-        // When
-        val recommendedArtists = cloudArtistDataSet.requestRecommendedArtists()
+    private fun lastFmResponse(
+        lastFmArtist: LastFmArtist, lastFmAlbumDetail: LastFmAlbumDetail): LastFmResponse =
+            LastFmResponse(
+                LastFmResult(LastFmArtistMatches(emptyList())),
+                lastFmArtist, LastFmTopAlbums(emptyList()), LastFmArtistList(listOf(lastFmArtist)),
+                lastFmAlbumDetail)
 
-        // Then
-        verify(lastFmService).requestSimilar(cloudArtistDataSet.coldplayMbid)
-        assertEquals(transform(recommendedArtistList), recommendedArtists)
-    }
-
-    @Test
-    fun testRequestArtist() {
-        // When
-        val requestedArtist = cloudArtistDataSet.requestArtist(artistMbid)
-
-        // Then
-        verify(lastFmService).requestArtistInfo(artistMbid, language)
-        assertEquals(transform(lastFmArtist), requestedArtist)
-    }
-
-    @Test
-    fun testRequestArtist_unknownId() {
-        // Given
-        val unknownArtisMbid = "unknown artist mbid"
-        val unknownArtistResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())),
-            LastFmArtist("unknown artist name", null, "unknown artist url"),
-            LastFmTopAlbums(emptyList()),
-            LastFmArtistList(emptyList()), lastFmAlbumDetail)
-        `when`(lastFmService.requestArtistInfo(unknownArtisMbid, language)).thenReturn(FakeCall(Response.success(unknownArtistResponse), null))
-
-        // When
-        val requestedArtist = cloudArtistDataSet.requestArtist(unknownArtisMbid)
-
-        // Then
-        verify(lastFmService).requestArtistInfo(unknownArtisMbid, language)
-        assertNull(requestedArtist)
-    }
+    private fun fakeCall(lastFmResponse: LastFmResponse) =
+        FakeCall(Response.success(lastFmResponse), null)
 }

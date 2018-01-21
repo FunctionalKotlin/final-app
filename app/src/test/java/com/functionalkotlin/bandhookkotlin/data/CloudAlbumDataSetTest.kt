@@ -31,10 +31,6 @@ import org.mockito.Mockito.anyString
 import org.mockito.Mockito.verify
 import retrofit2.Response
 
-const val ALBUM_MBID = "mbid"
-const val ARTIST_MBID = "mbid"
-const val ARTIST_NAME = "name"
-
 class CloudAlbumDataSetTest : StringSpec() {
     init {
         val knownAlbumDetail = LastFmAlbumDetail(
