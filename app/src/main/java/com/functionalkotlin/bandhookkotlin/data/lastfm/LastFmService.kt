@@ -9,9 +9,6 @@ import retrofit2.http.Query
 
 interface LastFmService {
 
-    @GET("/2.0/?method=artist.search")
-    fun searchArtist(@Query("artist") artist: String): Call<LastFmResponse>
-
     @GET("/2.0/?method=artist.getinfo")
     fun requestArtistInfo(@Query("mbid") id: String, @Query("lang") language: String):
         Call<LastFmResponse>
