@@ -13,6 +13,7 @@ import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.functionalkotlin.bandhookkotlin.R
 import com.functionalkotlin.bandhookkotlin.di.ApplicationComponent
 import com.functionalkotlin.bandhookkotlin.di.subcomponent.detail.ArtistActivityModule
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.adapter.ArtistDetailPagerAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.ArtistDetail
@@ -29,7 +30,6 @@ import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
 class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentContainer {
-
     override val ui = ArtistLayout()
 
     @Inject @VisibleForTesting
@@ -105,6 +105,11 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
 
     override fun showAlbums(albums: List<ImageTitle>) {
         albumsFragment.showAlbums(albums)
+    }
+
+    override fun showAlbumsNotFound(e: TopAlbumsNotFound) {
+        supportStartPostponedEnterTransition()
+        supportFinishAfterTransition()
     }
 
     private fun setActionBarTitle(title: String) {

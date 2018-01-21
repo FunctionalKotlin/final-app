@@ -9,7 +9,6 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInterac
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailEvent
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.TopAlbumsEvent
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
@@ -60,26 +59,6 @@ class ArtistPresenterTest {
     }
 
     @Test
-    fun testInitArtistInteractor() {
-        // When
-        artistPresenter.init(artistId)
-
-        // Then
-        assertEquals(artistId, artistDetailInteractor.id)
-        verify(interactorExecutor).execute(artistDetailInteractor)
-    }
-
-    @Test
-    fun testInitAlbumsInteractor() {
-        // When
-        artistPresenter.init(artistId)
-
-        // Then
-        assertEquals(artistId, artistDetailInteractor.id)
-        verify(interactorExecutor).execute(artistDetailInteractor)
-    }
-
-    @Test
     fun testOnArtistDetailEvent() {
         // Given
         val artistDetailEvent = ArtistDetailEvent(Artist("artist id", "artist name"))
@@ -90,21 +69,6 @@ class ArtistPresenterTest {
 
         // Then
         verify(artistView).showArtist(desiredArtist)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    @Test
-    fun testOnTopAlbumsEvent() {
-        // Given
-        val album = Album("album id", "album name", Artist("artist id", "artist name"), null, emptyList())
-        val topAlbumsEvent = TopAlbumsEvent(listOf(album))
-        val desiredAlbums = albumsMapper.transformAlbums(topAlbumsEvent.topAlbums)
-
-        // When
-        artistPresenter.onEvent(topAlbumsEvent)
-
-        // Then
-        verify(artistView).showAlbums(desiredAlbums)
     }
 
     @Test

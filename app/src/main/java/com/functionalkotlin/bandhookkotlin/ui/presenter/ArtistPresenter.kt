@@ -7,11 +7,14 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInterac
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailEvent
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.TopAlbumsEvent
+import com.functionalkotlin.bandhookkotlin.functional.fold
+import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ArtistDetailDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 open class ArtistPresenter(
         override val view: ArtistView,
@@ -27,17 +30,17 @@ open class ArtistPresenter(
         artistDetailInteractor.id = artistId
         interactorExecutor.execute(artistDetailInteractor)
 
-        val topAlbumsInteractor = topAlbumsInteractor
-        topAlbumsInteractor.artistId = artistId
-        interactorExecutor.execute(this.topAlbumsInteractor)
+        launch(UI) {
+            topAlbumsInteractor.getTopAlbums(artistId).runAsync {
+                it.fold(
+                    onSuccess = { view.showAlbums(albumsMapper.transformAlbums(it)) },
+                    onError = { view.showAlbumsNotFound(it) })
+            }
+        }
     }
 
     fun onEvent(event: ArtistDetailEvent) {
         view.showArtist(artistDetailMapper.transform(event.artist))
-    }
-
-    fun onEvent(event: TopAlbumsEvent) {
-        view.showAlbums(albumsMapper.transformAlbums(event.topAlbums))
     }
 
     override fun onAlbumClicked(item: ImageTitle) {
