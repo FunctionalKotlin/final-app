@@ -14,122 +14,97 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
 import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
+import com.nhaarman.mockito_kotlin.whenever
+import io.kotlintest.matchers.beEmpty
+import io.kotlintest.matchers.should
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.specs.StringSpec
 import org.mockito.Mockito.anyString
-import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
 
-@RunWith(MockitoJUnitRunner::class)
-class CloudAlbumDataSetTest {
+const val ALBUM_MBID = "mbid"
+const val ARTIST_MBID = "mbid"
+const val ARTIST_NAME = "name"
 
-    @Mock
-    lateinit var lastFmService: LastFmService
+class CloudAlbumDataSetTest: StringSpec() {
+    init {
+        val knownAlbumDetail = LastFmAlbumDetail(
+            "name", ALBUM_MBID, "url", "artist", "date", emptyList(), LastFmTracklist(emptyList()))
 
-    lateinit var cloudAlbumDataSet: CloudAlbumDataSet
-    lateinit var lastFmResponse: LastFmResponse
-    lateinit var knownAlbumDetail: LastFmAlbumDetail
-    lateinit var unknownAlbumDetail: LastFmAlbumDetail
-    lateinit var album: LastFmAlbum
-    lateinit var artist: LastFmArtist
-    lateinit var topAlbums: LastFmTopAlbums
-    lateinit var albums:  List<LastFmAlbum>
+        val unknownAlbumDetail = LastFmAlbumDetail(
+            "", null, "", "", "", emptyList(), LastFmTracklist(emptyList()))
 
-    private val albumMbid = "album mbid"
-    private val artistMbid: String = "artist mbid"
-    private val artistName: String = "artist name"
+        val lastFmResponse = lastFmResponse(knownAlbumDetail)
 
-    @Before
-    fun setUp() {
-        cloudAlbumDataSet = CloudAlbumDataSet(lastFmService)
+        val lastFmService = mock<LastFmService> {
+            on { requestAlbum(ALBUM_MBID) } doReturn fakeCall(lastFmResponse)
+            on { requestAlbums(anyString(), anyString()) } doReturn fakeCall(lastFmResponse)
+        }
 
-        artist = LastFmArtist(artistName, artistMbid, "artist url", emptyList(), null, null)
-        album = LastFmAlbum("album name", albumMbid, "album url",
-                artist, emptyList(), LastFmTracklist(emptyList()))
-        knownAlbumDetail = LastFmAlbumDetail("album name", albumMbid, "album url", "album artist",
-                "album release date", emptyList(), LastFmTracklist(emptyList()))
-        unknownAlbumDetail = LastFmAlbumDetail("", null, "", "", "", emptyList(), LastFmTracklist(emptyList()))
+        val cloudAlbumDataSet = CloudAlbumDataSet(lastFmService)
 
-        albums = listOf(album)
-        topAlbums = LastFmTopAlbums(listOf(album))
+        "requestAlbum with valid mbid returns valid album" {
+            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
 
-        lastFmResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())), artist, topAlbums, LastFmArtistList(emptyList()),
-                knownAlbumDetail)
+            verify(lastFmService).requestAlbum(ALBUM_MBID)
+            album shouldBe transform(lastFmResponse.album)
+        }
 
-        `when`(lastFmService.requestAlbum(albumMbid)).thenReturn(FakeCall(Response.success(lastFmResponse), null))
-        `when`(lastFmService.requestAlbums(anyString(), anyString())).thenReturn(FakeCall(Response.success(lastFmResponse), null))
+        "requestAlbum with unknown mbid returns null" {
+            whenever(lastFmService.requestAlbum(ALBUM_MBID))
+                .thenReturn(fakeCall(lastFmResponse(unknownAlbumDetail)))
+
+            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
+
+            verify(lastFmService).requestAlbum(ALBUM_MBID)
+            album shouldBe null
+        }
+
+        "requestTopAlbums with valid artist mbid returns valid list" {
+            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID, null)
+
+            verify(lastFmService).requestAlbums(ARTIST_MBID, "")
+            albums shouldBe transform(lastFmResponse.topAlbums.albums)
+        }
+
+        "requestTopAlbums with valid artist name returns valid list" {
+            val albums = cloudAlbumDataSet.requestTopAlbums(null, ARTIST_NAME)
+
+            verify(lastFmService).requestAlbums("", ARTIST_NAME)
+            albums shouldBe transform(lastFmResponse.topAlbums.albums)
+        }
+
+        "requestTopAlbums with valid artist mbid and name returns valid list" {
+            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID, ARTIST_NAME)
+
+            verify(lastFmService).requestAlbums(ARTIST_MBID, ARTIST_NAME)
+            albums shouldBe transform(lastFmResponse.topAlbums.albums)
+        }
+
+        "requestTopAlbums with invalid arguments returns empty list" {
+            val albums = cloudAlbumDataSet.requestTopAlbums(null, null)
+
+            verify(lastFmService, never()).requestAlbums(anyString(), anyString())
+            albums should beEmpty()
+        }
     }
 
-    @Test
-    fun testRequestAlbum_knownAlbum() {
-        // When
-        val album = cloudAlbumDataSet.requestAlbum(albumMbid)
+    private fun lastFmResponse(lastFmAlbumDetail: LastFmAlbumDetail): LastFmResponse {
+        val artist = LastFmArtist(ARTIST_NAME, ARTIST_MBID, "url", emptyList(), null, null)
 
-        // Then
-        verify(lastFmService).requestAlbum(albumMbid)
-        assertEquals(transform(lastFmResponse.album), album)
+        val topAlbums = LastFmTopAlbums(listOf(LastFmAlbum(
+            "name", ALBUM_MBID, "url", artist, emptyList(), LastFmTracklist(emptyList()))))
+
+        return LastFmResponse(
+            LastFmResult(LastFmArtistMatches(emptyList())), artist, topAlbums,
+            LastFmArtistList(emptyList()), lastFmAlbumDetail)
     }
 
-    @Test
-    fun testRequestAlbum_unknownAlbum() {
-        // Given
-        val unknownAlbumResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())), artist, topAlbums,
-                LastFmArtistList(emptyList()), unknownAlbumDetail)
-        `when`(lastFmService.requestAlbum(albumMbid)).thenReturn(FakeCall(Response.success(unknownAlbumResponse), null))
+    private fun fakeCall(lastFmResponse: LastFmResponse) =
+        FakeCall(Response.success(lastFmResponse), null)
 
-        // When
-        val album = cloudAlbumDataSet.requestAlbum(albumMbid)
-
-        // Then
-        verify(lastFmService).requestAlbum(albumMbid)
-        assertNull(album)
-    }
-
-    @Test
-    fun testRequestTopAlbums_byArtistMbid() {
-        // When
-        val albums = cloudAlbumDataSet.requestTopAlbums(artistMbid, null)
-
-        // Then
-        verify(lastFmService).requestAlbums(artistMbid, "")
-        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
-    }
-
-    @Test
-    fun testRequestTopAlbums_byArtistName() {
-        // When
-        val albums = cloudAlbumDataSet.requestTopAlbums(null, artistName)
-
-        // Then
-        verify(lastFmService).requestAlbums("", artistName)
-        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
-    }
-
-    @Test
-    fun testRequestTopAlbums_byArtistNameAndMbid() {
-        // When
-        val albums = cloudAlbumDataSet.requestTopAlbums(artistMbid, artistName)
-
-        // Then
-        verify(lastFmService).requestAlbums(artistMbid, artistName)
-        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
-    }
-
-    @Test
-    fun testRequestTopAlbums_noArguments() {
-        // When
-        val albums = cloudAlbumDataSet.requestTopAlbums(null, null)
-
-        // Then
-        verify(lastFmService, never()).requestAlbums(anyString(), anyString())
-        assertTrue(albums.isEmpty())
-    }
 }

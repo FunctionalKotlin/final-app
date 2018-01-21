@@ -16,6 +16,7 @@ val priorityJobQueueVersion = "2.0.1"
 // Unit tests
 val mockitoVersion = "2.8.47"
 val kotlinTestVersion = "2.0.7"
+val mockitoKoltinVersion = "1.5.0"
 
 class ProjectConfiguration {
     val buildPlugins = BuildPlugins()
@@ -72,4 +73,5 @@ class TestLibs {
     val annotations = "com.android.support:support-annotations:$supportVersion"
     val espresso = "com.android.support.test.espresso:espresso-core:2.2.2"
     val kotlinTest = "io.kotlintest:kotlintest:$kotlinTestVersion"
+    val mockitoKotlin = "com.nhaarman:mockito-kotlin:$mockitoKoltinVersion"
 }
