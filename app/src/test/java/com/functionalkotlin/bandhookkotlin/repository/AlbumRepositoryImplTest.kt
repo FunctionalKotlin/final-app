@@ -3,9 +3,12 @@
 package com.functionalkotlin.bandhookkotlin.repository
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
+import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
+import com.functionalkotlin.bandhookkotlin.functional.*
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
+import io.kotlintest.matchers.shouldBe
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -59,26 +62,29 @@ class AlbumRepositoryImplTest {
     }
 
     private fun mockRequestAlbumReturns() {
-        `when`(firstAlbumDataSet.requestAlbum(albumIdInBothDataSets)).thenReturn(albumInBothDataSets)
-        `when`(secondAlbumDataSet.requestAlbum(albumIdInSecondDataSet)).thenReturn(albumInSecondDataSet)
+        `when`(firstAlbumDataSet.requestAlbum(albumIdInBothDataSets)).thenReturn(albumInBothDataSets.result())
+        `when`(firstAlbumDataSet.requestAlbum(albumIdInSecondDataSet)).thenReturn(AlbumNotFound(albumIdInSecondDataSet).asError())
+        `when`(secondAlbumDataSet.requestAlbum(albumIdInSecondDataSet)).thenReturn(albumInSecondDataSet.result())
     }
 
     @Test
     fun testGetAlbum_existingInBothDataSets() {
         // When
-        val album = albumRepository.getAlbum(albumIdInBothDataSets)
+        val album = albumRepository.getAlbum(albumIdInBothDataSets).runSync()
 
         // Then
-        assertEquals(albumInBothDataSets, album)
+        album.isSuccess() shouldBe true
+        (album as Success).value shouldBe albumInBothDataSets
     }
 
     @Test
     fun testGetAlbum_existingOnlyInSecondDataSet() {
         // When
-        val album = albumRepository.getAlbum(albumIdInSecondDataSet)
+        val album = albumRepository.getAlbum(albumIdInSecondDataSet).runSync()
 
         // Then
-        assertEquals(albumInSecondDataSet, album)
+        album.isSuccess() shouldBe true
+        (album as Success).value shouldBe albumInSecondDataSet
     }
 
     @Test
