@@ -4,45 +4,32 @@ package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.album.detail.AlbumDetailDataMapper
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.album.detail.transform
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
+import io.kotlintest.specs.StringSpec
 
-class AlbumDetailDataMapperTest {
+class AlbumDetailDataMapperTest : StringSpec() {
 
-    lateinit var album: Album
+    init {
+        val album = Album("id", "name", Artist("artist id", "artist name"), "url", emptyList())
 
-    lateinit var albumDetailDataMapper: AlbumDetailDataMapper
+        "transform returns valid album" {
+            val albumDetail = transform(album)
 
-    @Before
-    fun setUp() {
-        album = Album("album id", "album name", Artist("artist id", "artist name"), "album url", emptyList())
+            albumDetail shouldNotBe null
 
-        albumDetailDataMapper = AlbumDetailDataMapper()
+            albumDetail?.run {
+                id shouldBe album.id
+                name shouldBe album.name
+                url shouldBe  album.url
+                tracks shouldBe album.tracks
+            }
+        }
+
+        "transform null returns null" {
+            transform(null) shouldBe null
+        }
     }
 
-    @Test
-    fun testTransform() {
-        // When
-        val transformedAlbum = albumDetailDataMapper.transform(album)
-
-        // Then
-        assertNotNull(transformedAlbum)
-        assertEquals(album.id, transformedAlbum?.id)
-        assertEquals(album.name, transformedAlbum?.name)
-        assertEquals(album.url, transformedAlbum?.url)
-        assertEquals(album.tracks, transformedAlbum?.tracks)
-    }
-
-    @Test
-    fun testTransform_null() {
-        // When
-        val transformedAlbum = albumDetailDataMapper.transform(null)
-
-        // Then
-        assertNull(transformedAlbum)
-    }
 }
