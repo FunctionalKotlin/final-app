@@ -3,7 +3,7 @@
 package com.functionalkotlin.bandhookkotlin.data.mapper.artist
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmArtist
-import com.functionalkotlin.bandhookkotlin.data.mapper.ImageMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.image.ImageMapper
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 
 fun transform(artists: List<LastFmArtist>): List<Artist> =

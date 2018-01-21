@@ -1,6 +1,6 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.data.mapper
+package com.functionalkotlin.bandhookkotlin.data.mapper.track
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTrack
 import com.functionalkotlin.bandhookkotlin.domain.entity.Track

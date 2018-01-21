@@ -1,6 +1,6 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.data.mapper
+package com.functionalkotlin.bandhookkotlin.data.mapper.image
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImage
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType

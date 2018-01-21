@@ -5,8 +5,8 @@ package com.functionalkotlin.bandhookkotlin.data.mapper.album
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmAlbum
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmAlbumDetail
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmArtist
-import com.functionalkotlin.bandhookkotlin.data.mapper.ImageMapper
-import com.functionalkotlin.bandhookkotlin.data.mapper.TrackMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.image.ImageMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.track.TrackMapper
 import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
