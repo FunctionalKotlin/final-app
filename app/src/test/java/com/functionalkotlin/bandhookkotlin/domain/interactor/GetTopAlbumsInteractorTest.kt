@@ -7,39 +7,26 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.functional.result
 import com.functionalkotlin.bandhookkotlin.util.asSuccess
+import com.nhaarman.mockito_kotlin.mock
 import io.kotlintest.matchers.shouldBe
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
+import io.kotlintest.specs.StringSpec
 
-@RunWith(MockitoJUnitRunner::class)
-class GetTopAlbumsInteractorTest {
+class GetTopAlbumsInteractorTest : StringSpec() {
 
-    @Mock
-    lateinit var albumRepository: AlbumRepository
+    init {
+        val album = Album(
+            ALBUM_ID, "name", Artist("id", "name", null, null, null), "url", emptyList())
 
-    lateinit var album: Album
+        val albumRepository = mock<AlbumRepository> {
+            on { getTopAlbums(ALBUM_ID) }.thenReturn(listOf(album).result())
+        }
 
-    lateinit var getTopAlbumsInteractor: GetTopAlbumsInteractor
+        val interactor = GetTopAlbumsInteractor(albumRepository)
 
-    private val artistId = "artist id"
+        "getTopAlbums should return valid list" {
+            val asyncResult = interactor.getTopAlbums(ALBUM_ID)
 
-    @Before
-    fun setUp() {
-        album = Album("album id", "Album name", Artist("artist id", "artist name"), null, emptyList())
-
-        `when`(albumRepository.getTopAlbums(artistId)).thenReturn(listOf(album).result())
-
-        getTopAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
-    }
-
-    @Test
-    fun testInvoke_withArtistId() {
-        val asyncResult = getTopAlbumsInteractor.getTopAlbums(artistId)
-
-        asyncResult.asSuccess { get(0) shouldBe album }
+            asyncResult.asSuccess { get(0) shouldBe album }
+        }
     }
 }

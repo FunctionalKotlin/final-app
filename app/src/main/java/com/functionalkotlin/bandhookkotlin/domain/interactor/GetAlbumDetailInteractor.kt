@@ -7,7 +7,7 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
-class GetAlbumDetailInteractor(val albumRepository: AlbumRepository) {
+class GetAlbumDetailInteractor(private val albumRepository: AlbumRepository) {
 
     fun getAlbum(albumId: String): AsyncResult<Album, AlbumNotFound> =
         albumRepository.getAlbum(albumId)
