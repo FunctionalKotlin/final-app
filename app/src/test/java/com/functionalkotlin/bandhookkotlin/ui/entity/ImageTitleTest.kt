@@ -2,36 +2,24 @@
 
 package com.functionalkotlin.bandhookkotlin.ui.entity
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Test
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
+import io.kotlintest.specs.StringSpec
 
-class ImageTitleTest {
+class ImageTitleTest : StringSpec() {
 
-    @Test
-    fun testInitWithEmptyUrl() {
-        // When
-        val imageTitle = ImageTitle("id", "name", "")
+    init {
+        "init with empty url returns null" {
+            ImageTitle("id", "name", "").url shouldBe null
+        }
 
-        // Then
-        assertNull(imageTitle.url)
+        "init with null url returns null" {
+            ImageTitle("id", "name", null).url shouldBe null
+        }
+
+        "init with non empty url returns non null url" {
+            ImageTitle("id", "name", "url").url shouldNotBe null
+        }
     }
 
-    @Test
-    fun testInitWithNullUrl() {
-        // When
-        val imageTitle = ImageTitle("id", "name", null)
-
-        // Then
-        assertNull(imageTitle.url)
-    }
-
-    @Test
-    fun testInitWithNotEmptyUrl() {
-        // When
-        val imageTitle = ImageTitle("id", "name", "url")
-
-        // Then
-        assertEquals("url", imageTitle.url)
-    }
 }
