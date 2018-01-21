@@ -12,6 +12,7 @@ val okhttpVersion = "3.9.0"
 val eventBusVersion = "2.4.1"
 val picassoVersion = "2.5.2"
 val priorityJobQueueVersion = "2.0.1"
+val kotlinxCoroutinesVersion = "0.14.1"
 
 // Unit tests
 val mockitoVersion = "2.8.47"
@@ -63,6 +64,8 @@ class Libs {
     val ankoRecyclerview = "org.jetbrains.anko:anko-recyclerview-v7:$ankoVersion"
     val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
     val dagger = "com.google.dagger:dagger:$daggerVersion"
+    val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
+    val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion"
 }
 
 class TestLibs {

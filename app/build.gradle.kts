@@ -4,6 +4,7 @@ import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.setValue
+import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
 plugins {
     id("com.android.application")
@@ -35,6 +36,10 @@ android {
     }
 }
 
+kotlin {
+    experimental.coroutines = Coroutines.ENABLE
+}
+
 dependencies {
     compile(config.libs.kotlinStdlib)
     compile(config.libs.appcompat)
@@ -56,6 +61,8 @@ dependencies {
     compile(config.libs.ankoCardview)
     compile(config.libs.ankoRecyclerview)
     compile(config.libs.dagger)
+    compile(config.libs.coroutines)
+    compile(config.libs.coroutinesAndroid)
     kapt(config.libs.daggerCompiler)
 
     testCompile(config.libs.kotlinStdlib)
