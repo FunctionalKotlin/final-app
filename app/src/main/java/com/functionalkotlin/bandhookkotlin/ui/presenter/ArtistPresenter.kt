@@ -10,7 +10,7 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailE
 import com.functionalkotlin.bandhookkotlin.functional.fold
 import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.ArtistDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import kotlinx.coroutines.experimental.android.UI
@@ -19,11 +19,10 @@ import kotlinx.coroutines.experimental.launch
 open class ArtistPresenter(
     override val view: ArtistView,
     override val bus: Bus,
-    val artistDetailInteractor: GetArtistDetailInteractor,
-    val topAlbumsInteractor: GetTopAlbumsInteractor,
-    val interactorExecutor: InteractorExecutor,
-    val artistDetailMapper: ArtistDetailDataMapper,
-    val albumsMapper: ImageTitleDataMapper) : Presenter<ArtistView>, AlbumsPresenter {
+    private val artistDetailInteractor: GetArtistDetailInteractor,
+    private val topAlbumsInteractor: GetTopAlbumsInteractor,
+    private val interactorExecutor: InteractorExecutor,
+    private val albumsMapper: ImageTitleDataMapper) : Presenter<ArtistView>, AlbumsPresenter {
 
     open fun init(artistId: String) {
         val artistDetailInteractor = artistDetailInteractor
@@ -40,7 +39,7 @@ open class ArtistPresenter(
     }
 
     fun onEvent(event: ArtistDetailEvent) {
-        view.showArtist(artistDetailMapper.transform(event.artist))
+        view.showArtist(transform(event.artist))
     }
 
     override fun onAlbumClicked(item: ImageTitle) {

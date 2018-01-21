@@ -11,7 +11,7 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailE
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.ArtistDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import org.junit.Before
@@ -37,7 +37,6 @@ class ArtistPresenterTest {
 
     lateinit var artistDetailInteractor: GetArtistDetailInteractor
     lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
-    lateinit var artistDetailMapper: ArtistDetailDataMapper
     lateinit var albumsMapper: ImageTitleDataMapper
 
     lateinit var artistPresenter: ArtistPresenter
@@ -48,19 +47,18 @@ class ArtistPresenterTest {
     fun setUp() {
         artistDetailInteractor = GetArtistDetailInteractor(artistRepository)
         topAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
-        artistDetailMapper = ArtistDetailDataMapper()
         albumsMapper = ImageTitleDataMapper()
 
 
         artistPresenter = ArtistPresenter(artistView, bus, artistDetailInteractor, topAlbumsInteractor,
-            interactorExecutor, artistDetailMapper, albumsMapper)
+            interactorExecutor, albumsMapper)
     }
 
     @Test
     fun testOnArtistDetailEvent() {
         // Given
         val artistDetailEvent = ArtistDetailEvent(Artist("artist id", "artist name"))
-        val desiredArtist = artistDetailMapper.transform(artistDetailEvent.artist)
+        val desiredArtist = transform(artistDetailEvent.artist)
 
         // When
         artistPresenter.onEvent(artistDetailEvent)
