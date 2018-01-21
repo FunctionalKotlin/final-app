@@ -25,14 +25,12 @@ class GetTopAlbumsInteractorTest {
     lateinit var getTopAlbumsInteractor: GetTopAlbumsInteractor
 
     private val artistId = "artist id"
-    private val artistName = "artist name"
 
     @Before
     fun setUp() {
         album = Album("album id", "Album name", Artist("artist id", "artist name"), null, emptyList())
 
-        `when`(albumRepository.getTopAlbums(null, artistName)).thenReturn(listOf(album))
-        `when`(albumRepository.getTopAlbums(artistId, null)).thenReturn(listOf(album))
+        `when`(albumRepository.getTopAlbums(artistId)).thenReturn(listOf(album))
 
         getTopAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
     }
@@ -41,19 +39,6 @@ class GetTopAlbumsInteractorTest {
     fun testInvoke_withArtistId() {
         // Given
         getTopAlbumsInteractor.artistId = artistId
-
-        // When
-        val event = getTopAlbumsInteractor.invoke()
-
-        // Then
-        Assert.assertEquals(TopAlbumsEvent::class.java, event.javaClass)
-        Assert.assertEquals(album, (event as TopAlbumsEvent).topAlbums[0])
-    }
-
-    @Test
-    fun testInvoke_withArtistName() {
-        // Given
-        getTopAlbumsInteractor.artistName = artistName
 
         // When
         val event = getTopAlbumsInteractor.invoke()

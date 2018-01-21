@@ -69,28 +69,14 @@ class CloudAlbumDataSetTest: StringSpec() {
         }
 
         "requestTopAlbums with valid artist mbid returns valid list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID, null)
+            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID)
 
             verify(lastFmService).requestAlbums(ARTIST_MBID, "")
             albums shouldBe transform(lastFmResponse.topAlbums.albums)
         }
 
-        "requestTopAlbums with valid artist name returns valid list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums(null, ARTIST_NAME)
-
-            verify(lastFmService).requestAlbums("", ARTIST_NAME)
-            albums shouldBe transform(lastFmResponse.topAlbums.albums)
-        }
-
-        "requestTopAlbums with valid artist mbid and name returns valid list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID, ARTIST_NAME)
-
-            verify(lastFmService).requestAlbums(ARTIST_MBID, ARTIST_NAME)
-            albums shouldBe transform(lastFmResponse.topAlbums.albums)
-        }
-
         "requestTopAlbums with invalid arguments returns empty list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums(null, null)
+            val albums = cloudAlbumDataSet.requestTopAlbums("")
 
             verify(lastFmService, never()).requestAlbums(anyString(), anyString())
             albums should beEmpty()

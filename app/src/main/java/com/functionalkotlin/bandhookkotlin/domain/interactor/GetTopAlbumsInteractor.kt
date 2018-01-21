@@ -9,14 +9,10 @@ import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 
 class GetTopAlbumsInteractor(val albumRepository: AlbumRepository) : Interactor {
 
-    var artistId: String? = null
-    var artistName: String? = null
+    var artistId: String = ""
 
-    override fun invoke(): Event {
-        if (artistId == null && artistName == null) {
-            throw IllegalStateException("Either mbid or name should be specified")
-        }
-        val albums = albumRepository.getTopAlbums(artistId, artistName)
-        return TopAlbumsEvent(albums)
-    }
+    override fun invoke(): Event =
+        artistId.takeIf { it.isNotBlank() }?.let {
+            TopAlbumsEvent(albumRepository.getTopAlbums(artistId))
+        } ?: throw IllegalStateException("mbid cannot be blank")
 }

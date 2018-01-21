@@ -56,9 +56,9 @@ class AlbumRepositoryImplTest {
     }
 
     private fun mockRequestTopAlbumsReturns() {
-        `when`(firstAlbumDataSet.requestTopAlbums(null, artistName)).thenReturn(albumsInBothDataSets)
-        `when`(firstAlbumDataSet.requestTopAlbums(artistIdInBothDataSets, null)).thenReturn(albumsInBothDataSets)
-        `when`(secondAlbumDataSet.requestTopAlbums(artistIdInSecondDataSet, null)).thenReturn(albumsInSecondDataSet)
+        `when`(firstAlbumDataSet.requestTopAlbums("")).thenReturn(albumsInBothDataSets)
+        `when`(firstAlbumDataSet.requestTopAlbums(artistIdInBothDataSets)).thenReturn(albumsInBothDataSets)
+        `when`(secondAlbumDataSet.requestTopAlbums(artistIdInSecondDataSet)).thenReturn(albumsInSecondDataSet)
     }
 
     private fun mockRequestAlbumReturns() {
@@ -90,7 +90,7 @@ class AlbumRepositoryImplTest {
     @Test
     fun testGetTopAlbums_withArtistId() {
         // When
-        val albums = albumRepository.getTopAlbums(artistIdInBothDataSets, null)
+        val albums = albumRepository.getTopAlbums(artistIdInBothDataSets)
 
         // Then
         assertEquals(albumsInBothDataSets, albums)
@@ -99,25 +99,16 @@ class AlbumRepositoryImplTest {
     @Test
     fun testGetTopAlbums_withArtistIdExistingOnlyInSecondDataSet() {
         // When
-        val albums = albumRepository.getTopAlbums(artistIdInSecondDataSet, null)
+        val albums = albumRepository.getTopAlbums(artistIdInSecondDataSet)
 
         // Then
         assertEquals(albumsInSecondDataSet, albums)
     }
 
     @Test
-    fun testGetTopAlbums_withArtistName() {
-        // When
-        val albums = albumRepository.getTopAlbums(null, artistName)
-
-        // Then
-        assertEquals(albumsInBothDataSets, albums)
-    }
-
-    @Test
     fun testGetTopAlbums_withArtistIdAndArtistName() {
         // When
-        val albums = albumRepository.getTopAlbums(null, null)
+        val albums = albumRepository.getTopAlbums("")
 
         // Then
         assertTrue(albums.isEmpty())

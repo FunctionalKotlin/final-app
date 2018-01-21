@@ -7,6 +7,6 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
 interface AlbumRepository {
-    fun getTopAlbums(artistId: String?, artistName: String?): List<Album>
+    fun getTopAlbums(artistId: String): List<Album>
     fun getAlbum(id: String): AsyncResult<Album, AlbumNotFound>
 }

@@ -8,7 +8,7 @@ import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
 interface AlbumDataSet {
 
-    fun requestTopAlbums(artistId: String?, artistName: String?): List<Album>
+    fun requestTopAlbums(artistId: String): List<Album>
     fun requestAlbum(mbid: String): AsyncResult<Album, AlbumNotFound>
 
 }

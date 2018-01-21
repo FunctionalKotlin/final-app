@@ -16,8 +16,8 @@ class AlbumRepositoryImpl(val albumDataSets: List<AlbumDataSet>) : AlbumReposito
             f = { it.requestAlbum(id) },
             acc = AlbumNotFound(id).asError())
 
-    override fun getTopAlbums(artistId: String?, artistName: String?) = albumDataSets
-                .map { it.requestTopAlbums(artistId, artistName) }
+    override fun getTopAlbums(artistId: String) = albumDataSets
+                .map { it.requestTopAlbums(artistId) }
                 .firstOrNull { it.isNotEmpty() }
                 ?: emptyList()
  }

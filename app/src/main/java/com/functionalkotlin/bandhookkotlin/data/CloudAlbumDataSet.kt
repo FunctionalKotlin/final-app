@@ -12,24 +12,18 @@ import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 class CloudAlbumDataSet(val lastFmService: LastFmService) : AlbumDataSet {
 
     override fun requestAlbum(mbid: String): AsyncResult<Album, AlbumNotFound> =
-        lastFmService.requestAlbum(mbid).asyncResult().bind {
-            response -> response?.album
+        lastFmService.requestAlbum(mbid).asyncResult().bind { response ->
+            response?.album
                 ?.let { transform(it) }
                 ?.result()
                 ?: AlbumNotFound(mbid).asError()
         }
 
-    override fun requestTopAlbums(artistId: String?, artistName: String?): List<Album> {
-        val mbid = artistId ?: ""
-        val name = artistName ?: ""
-
-        if (!mbid.isEmpty() || !name.isEmpty()) {
-            return lastFmService.requestAlbums(mbid, name).unwrapCall {
+    override fun requestTopAlbums(artistId: String): List<Album> =
+        artistId.takeIf { it.isNotBlank() }?.let {
+            lastFmService.requestAlbums(it, "").unwrapCall {
                 transform(topAlbums.albums)
-            } ?: emptyList()
-        }
+            }
+        } ?: emptyList()
 
-        return emptyList()
-    }
 }
-
