@@ -3,14 +3,14 @@
 package com.functionalkotlin.bandhookkotlin.data
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.LastFmService
-import com.functionalkotlin.bandhookkotlin.data.mapper.AlbumMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
 class CloudAlbumDataSet(val lastFmService: LastFmService) : AlbumDataSet {
 
     override fun requestAlbum(mbid: String): Album?
-            = lastFmService.requestAlbum(mbid).unwrapCall { AlbumMapper().transform(album) }
+            = lastFmService.requestAlbum(mbid).unwrapCall { transform(album) }
 
     override fun requestTopAlbums(artistId: String?, artistName: String?): List<Album> {
         val mbid = artistId ?: ""
@@ -18,7 +18,7 @@ class CloudAlbumDataSet(val lastFmService: LastFmService) : AlbumDataSet {
 
         if (!mbid.isEmpty() || !name.isEmpty()) {
             return lastFmService.requestAlbums(mbid, name).unwrapCall {
-                AlbumMapper().transform(topAlbums.albums)
+                transform(topAlbums.albums)
             } ?: emptyList()
         }
 

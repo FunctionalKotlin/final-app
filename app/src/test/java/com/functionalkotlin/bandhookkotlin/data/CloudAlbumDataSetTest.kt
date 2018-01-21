@@ -12,7 +12,7 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmResponse
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmResult
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
-import com.functionalkotlin.bandhookkotlin.data.mapper.AlbumMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -43,7 +43,6 @@ class CloudAlbumDataSetTest {
     lateinit var topAlbums: LastFmTopAlbums
     lateinit var albums:  List<LastFmAlbum>
 
-    private val albumMapper = AlbumMapper()
     private val albumMbid = "album mbid"
     private val artistMbid: String = "artist mbid"
     private val artistName: String = "artist name"
@@ -76,7 +75,7 @@ class CloudAlbumDataSetTest {
 
         // Then
         verify(lastFmService).requestAlbum(albumMbid)
-        assertEquals(albumMapper.transform(lastFmResponse.album), album)
+        assertEquals(transform(lastFmResponse.album), album)
     }
 
     @Test
@@ -101,7 +100,7 @@ class CloudAlbumDataSetTest {
 
         // Then
         verify(lastFmService).requestAlbums(artistMbid, "")
-        assertEquals(albumMapper.transform(lastFmResponse.topAlbums.albums), albums)
+        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
     }
 
     @Test
@@ -111,7 +110,7 @@ class CloudAlbumDataSetTest {
 
         // Then
         verify(lastFmService).requestAlbums("", artistName)
-        assertEquals(albumMapper.transform(lastFmResponse.topAlbums.albums), albums)
+        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
     }
 
     @Test
@@ -121,7 +120,7 @@ class CloudAlbumDataSetTest {
 
         // Then
         verify(lastFmService).requestAlbums(artistMbid, artistName)
-        assertEquals(albumMapper.transform(lastFmResponse.topAlbums.albums), albums)
+        assertEquals(transform(lastFmResponse.topAlbums.albums), albums)
     }
 
     @Test

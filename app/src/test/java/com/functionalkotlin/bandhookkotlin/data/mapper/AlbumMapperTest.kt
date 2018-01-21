@@ -28,16 +28,14 @@ class AlbumMapperTest: StringSpec() {
         val lastFmAlbumWithoutImages = LastFmAlbum(
             "name", "mbid", "url", lastFmArtist, emptyList(), lastFmTrackList)
 
-        val albumMapper = AlbumMapper()
-
         "transform invalid albums returns empty list" {
             val albums = listOf(lastFmAlbumWithoutId, lastFmAlbumWithoutImages)
 
-            albumMapper.transform(albums) should beEmpty()
+            transform(albums) should beEmpty()
         }
 
         "transform valid albums returns valid list" {
-            val albums = albumMapper.transform(listOf(lastFmAlbum, lastFmAlbum))
+            val albums = transform(listOf(lastFmAlbum, lastFmAlbum))
 
             albums should haveSize(2)
             albums[0].id shouldBe lastFmAlbum.mbid
@@ -45,12 +43,12 @@ class AlbumMapperTest: StringSpec() {
         }
 
         "transform empty albums returns empty list" {
-            albumMapper.transform(emptyList()) should beEmpty()
+            transform(emptyList()) should beEmpty()
         }
 
         "transform albums valid and invalid should only transform valid" {
-            val albums = albumMapper.transform(listOf(
-                lastFmAlbum, lastFmAlbumWithoutId, lastFmAlbumWithoutImages))
+            val albums = transform(
+                listOf(lastFmAlbum, lastFmAlbumWithoutId, lastFmAlbumWithoutImages))
 
             albums should haveSize(1)
             albums[0].id shouldBe lastFmAlbum.mbid
@@ -60,7 +58,7 @@ class AlbumMapperTest: StringSpec() {
             val albumDetail = LastFmAlbumDetail(
                 "name", "mbid", "url", "name", "album release date", lastFmImages, lastFmTrackList)
 
-            val album = albumMapper.transform(albumDetail)
+            val album = transform(albumDetail)
 
             album?.run {
                 id shouldBe albumDetail.mbid
@@ -76,11 +74,11 @@ class AlbumMapperTest: StringSpec() {
             val albumDetail = LastFmAlbumDetail(
                 "name", null, "url", "name", "album release date", lastFmImages, lastFmTrackList)
 
-            albumMapper.transform(albumDetail) shouldBe null
+            transform(albumDetail) shouldBe null
         }
 
         "transform valid album should return valid album" {
-            val album = albumMapper.transform(lastFmAlbum)
+            val album = transform(lastFmAlbum)
 
             album?.run {
                 id shouldBe lastFmAlbum.mbid
@@ -94,7 +92,7 @@ class AlbumMapperTest: StringSpec() {
         }
 
         "transform invalid album should return null" {
-            albumMapper.transform(lastFmAlbumWithoutId) shouldBe null
+            transform(lastFmAlbumWithoutId) shouldBe null
         }
     }
 }
