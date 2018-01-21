@@ -4,6 +4,7 @@ package com.functionalkotlin.bandhookkotlin.repository
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.functional.*
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
@@ -16,8 +17,10 @@ class AlbumRepositoryImpl(val albumDataSets: List<AlbumDataSet>) : AlbumReposito
             f = { it.requestAlbum(id) },
             acc = AlbumNotFound(id).asError())
 
-    override fun getTopAlbums(artistId: String) = albumDataSets
-                .map { it.requestTopAlbums(artistId) }
-                .firstOrNull { it.isNotEmpty() }
-                ?: emptyList()
- }
+    override fun getTopAlbums(artistId: String): AsyncResult<List<Album>, TopAlbumsNotFound> =
+        firstSuccessIn(
+            list = albumDataSets,
+            f = { it.requestTopAlbums(artistId) },
+            acc = TopAlbumsNotFound(artistId).asError())
+
+}

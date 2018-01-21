@@ -5,9 +5,12 @@ package com.functionalkotlin.bandhookkotlin.repository
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.functional.*
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
+import io.kotlintest.matchers.beEmpty
+import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -56,9 +59,11 @@ class AlbumRepositoryImplTest {
     }
 
     private fun mockRequestTopAlbumsReturns() {
-        `when`(firstAlbumDataSet.requestTopAlbums("")).thenReturn(albumsInBothDataSets)
-        `when`(firstAlbumDataSet.requestTopAlbums(artistIdInBothDataSets)).thenReturn(albumsInBothDataSets)
-        `when`(secondAlbumDataSet.requestTopAlbums(artistIdInSecondDataSet)).thenReturn(albumsInSecondDataSet)
+        `when`(firstAlbumDataSet.requestTopAlbums("")).thenReturn(TopAlbumsNotFound("").asError())
+        `when`(firstAlbumDataSet.requestTopAlbums(artistIdInBothDataSets)).thenReturn(albumsInBothDataSets.result())
+        `when`(firstAlbumDataSet.requestTopAlbums(artistIdInSecondDataSet)).thenReturn(TopAlbumsNotFound("").asError())
+        `when`(secondAlbumDataSet.requestTopAlbums("")).thenReturn(TopAlbumsNotFound("").asError())
+        `when`(secondAlbumDataSet.requestTopAlbums(artistIdInSecondDataSet)).thenReturn(albumsInSecondDataSet.result())
     }
 
     private fun mockRequestAlbumReturns() {
@@ -89,28 +94,25 @@ class AlbumRepositoryImplTest {
 
     @Test
     fun testGetTopAlbums_withArtistId() {
-        // When
-        val albums = albumRepository.getTopAlbums(artistIdInBothDataSets)
+        val result = albumRepository.getTopAlbums(artistIdInBothDataSets).runSync()
 
-        // Then
-        assertEquals(albumsInBothDataSets, albums)
+        result.isSuccess() shouldBe true
+        (result as Success).value shouldBe albumsInBothDataSets
     }
 
     @Test
     fun testGetTopAlbums_withArtistIdExistingOnlyInSecondDataSet() {
-        // When
-        val albums = albumRepository.getTopAlbums(artistIdInSecondDataSet)
+        val result = albumRepository.getTopAlbums(artistIdInSecondDataSet).runSync()
 
-        // Then
-        assertEquals(albumsInSecondDataSet, albums)
+        result.isSuccess() shouldBe true
+        (result as Success).value shouldBe albumsInSecondDataSet
     }
 
     @Test
     fun testGetTopAlbums_withArtistIdAndArtistName() {
-        // When
-        val albums = albumRepository.getTopAlbums("")
+        val result = albumRepository.getTopAlbums("").runSync()
 
-        // Then
-        assertTrue(albums.isEmpty())
+        result.isFailure() shouldBe true
+        (result as Failure).error shouldBe TopAlbumsNotFound("")
     }
 }
