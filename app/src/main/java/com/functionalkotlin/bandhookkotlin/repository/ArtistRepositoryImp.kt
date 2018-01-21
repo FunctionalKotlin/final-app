@@ -3,33 +3,26 @@
 package com.functionalkotlin.bandhookkotlin.repository
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
+import com.functionalkotlin.bandhookkotlin.domain.entity.RecommendationNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
+import com.functionalkotlin.bandhookkotlin.functional.asError
+import com.functionalkotlin.bandhookkotlin.functional.firstSuccessIn
 import com.functionalkotlin.bandhookkotlin.repository.dataset.ArtistDataSet
 
-class ArtistRepositoryImp(val artistDataSets: List<ArtistDataSet>) : ArtistRepository {
+class ArtistRepositoryImp(private val artistDataSets: List<ArtistDataSet>) : ArtistRepository {
 
-    override fun getRecommendedArtists(): List<Artist> {
-        for (dataSet in artistDataSets) {
-            val result = dataSet.requestRecommendedArtists()
-            if (result.isNotEmpty()) {
-                return result
-            }
-        }
+    override fun getRecommendedArtists(): AsyncResult<List<Artist>, RecommendationNotFound> =
+        firstSuccessIn(
+            list = artistDataSets,
+            f = ArtistDataSet::requestRecommendedArtists,
+            acc = RecommendationNotFound.asError())
 
-        return emptyList()
-    }
-
-    override fun getArtist(id: String): Artist {
-        for (dataSet in artistDataSets) {
-            val result = dataSet.requestArtist(id)
-            if (result != null) {
-                return result
-            }
-        }
-
-        val empty = "empty"
-
-        return Artist(empty, empty, empty)
-    }
+    override fun getArtist(id: String): AsyncResult<Artist, ArtistNotFound> =
+        firstSuccessIn(
+            list = artistDataSets,
+            f = { it.requestArtist(id) },
+            acc = ArtistNotFound(id).asError())
 
 }
