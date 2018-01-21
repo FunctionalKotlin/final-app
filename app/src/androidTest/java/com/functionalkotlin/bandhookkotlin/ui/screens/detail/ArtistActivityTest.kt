@@ -98,8 +98,6 @@ class ArtistActivityTest : ActivityInstrumentationTestCase2<ArtistActivity>(
         instrumentation.callActivityOnPause(artistActivity)
 
         // Then
-        verify(presenter).onPause()
-        verify(presenter).onResume()
         verify(presenter).init(id)
     }
 

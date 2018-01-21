@@ -14,6 +14,8 @@ import com.functionalkotlin.bandhookkotlin.ui.presenter.MainPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity
 import com.functionalkotlin.bandhookkotlin.ui.util.navigate
 import com.functionalkotlin.bandhookkotlin.ui.view.MainView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainLayout>(), MainView {
@@ -37,12 +39,10 @@ class MainActivity : BaseActivity<MainLayout>(), MainView {
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
-    }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.onPause()
+        launch(UI) {
+            presenter.onResume()
+        }
     }
 
     override fun showArtists(artists: List<ImageTitle>) {

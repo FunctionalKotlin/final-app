@@ -12,6 +12,7 @@ import android.view.WindowManager
 import com.functionalkotlin.bandhookkotlin.R
 import com.functionalkotlin.bandhookkotlin.di.ApplicationComponent
 import com.functionalkotlin.bandhookkotlin.di.subcomponent.detail.ArtistActivityModule
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.adapter.ArtistDetailPagerAdapter
@@ -85,13 +86,7 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
         presenter.init(getNavigationId())
-    }
-
-    override fun onPause() {
-        super.onPause()
-        presenter.onPause()
     }
 
     override fun showArtist(artistDetail: ArtistDetail) {
@@ -106,6 +101,11 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
 
     override fun showAlbums(albums: List<ImageTitle>) {
         albumsFragment.showAlbums(albums)
+    }
+
+    override fun showArtistNotFound(it: ArtistNotFound) {
+        supportStartPostponedEnterTransition()
+        supportFinishAfterTransition()
     }
 
     override fun showAlbumsNotFound(e: TopAlbumsNotFound) {

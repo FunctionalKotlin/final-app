@@ -2,16 +2,11 @@
 
 package com.functionalkotlin.bandhookkotlin.ui.presenter
 
-import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetArtistDetailInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInteractor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailEvent
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import org.junit.Before
 import org.junit.Test
@@ -26,13 +21,9 @@ class ArtistPresenterTest {
     @Mock
     lateinit var artistView: ArtistView
     @Mock
-    lateinit var bus: Bus
-    @Mock
     lateinit var artistRepository: ArtistRepository
     @Mock
     lateinit var albumRepository: AlbumRepository
-    @Mock
-    lateinit var interactorExecutor: InteractorExecutor
 
     lateinit var artistDetailInteractor: GetArtistDetailInteractor
     lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
@@ -47,39 +38,7 @@ class ArtistPresenterTest {
         topAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
 
 
-        artistPresenter = ArtistPresenter(artistView, bus, artistDetailInteractor, topAlbumsInteractor,
-            interactorExecutor)
-    }
-
-    @Test
-    fun testOnArtistDetailEvent() {
-        // Given
-        val artistDetailEvent = ArtistDetailEvent(Artist("artist id", "artist name"))
-        val desiredArtist = transform(artistDetailEvent.artist)
-
-        // When
-        artistPresenter.onEvent(artistDetailEvent)
-
-        // Then
-        verify(artistView).showArtist(desiredArtist)
-    }
-
-    @Test
-    fun testOnPause() {
-        // When
-        artistPresenter.onPause()
-
-        // Then
-        verify(bus).unregister(artistPresenter)
-    }
-
-    @Test
-    fun testOnResume() {
-        // When
-        artistPresenter.onResume()
-
-        // Then
-        verify(bus).register(artistPresenter)
+        artistPresenter = ArtistPresenter(artistView, artistDetailInteractor, topAlbumsInteractor)
     }
 
     @Test
