@@ -5,12 +5,10 @@ package com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track
 import com.functionalkotlin.bandhookkotlin.domain.entity.Track
 import com.functionalkotlin.bandhookkotlin.ui.entity.TrackDetail
 
-class TrackDataMapper {
+fun transform(number: Int, track: Track): TrackDetail = with(track) {
+    TrackDetail(number, name, duration)
+}
 
-    fun transform(number: Int, domainTrack: Track) =
-        TrackDetail(number, domainTrack.name, domainTrack.duration)
-
-    fun transform(domainTrack: List<Track>): List<TrackDetail> =
-        domainTrack.mapIndexed { index, track -> transform(index + 1, track) }
-
+fun transform(tracks: List<Track>): List<TrackDetail> = tracks.mapIndexed { i, track ->
+    transform(i + 1, track)
 }

@@ -9,7 +9,6 @@ import com.functionalkotlin.bandhookkotlin.di.scope.ActivityScope
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetAlbumDetailInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
 import com.functionalkotlin.bandhookkotlin.ui.view.AlbumView
@@ -22,10 +21,6 @@ class AlbumActivityModule(activity: AlbumActivity) : ActivityModule(activity) {
     @Provides
     @ActivityScope
     fun provideAlbumView(): AlbumView = activity as AlbumView
-
-    @Provides
-    @ActivityScope
-    fun provideTrackDataMapper() = TrackDataMapper()
 
     @Provides
     @ActivityScope

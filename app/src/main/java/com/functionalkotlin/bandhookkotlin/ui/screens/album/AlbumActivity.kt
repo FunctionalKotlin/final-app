@@ -19,7 +19,7 @@ import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
 import com.functionalkotlin.bandhookkotlin.ui.entity.TrackDetail
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.transform
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId
 import com.functionalkotlin.bandhookkotlin.ui.util.into
@@ -44,9 +44,6 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
     @Inject
     @VisibleForTesting
     lateinit var presenter: AlbumPresenter
-
-    @Inject
-    lateinit var trackDataMapper: TrackDataMapper
 
     @Inject
     lateinit var adapter: TracksAdapter
@@ -112,7 +109,7 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
         picasso.load(albumDetail.url).fit().centerCrop().into(ui.image) {
             makeStatusBarTransparent()
             supportStartPostponedEnterTransition()
-            populateTrackList(trackDataMapper.transform(albumDetail.tracks))
+            populateTrackList(transform(albumDetail.tracks))
             animateTrackListUp()
         }
     }

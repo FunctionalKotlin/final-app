@@ -3,48 +3,38 @@
 package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Track
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.transform
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.specs.StringSpec
 
-class TrackDataMapperTest {
+class TrackDataMapperTest : StringSpec() {
 
-    lateinit var track: Track
-    lateinit var tracks: List<Track>
+    init {
+        val track = Track("track name", 10)
+        val tracks = listOf(track, track)
 
-    lateinit var trackDataMapper: TrackDataMapper
+        "transform track return valid track" {
+            transform(1, track).run {
+                number shouldBe 1
+                name shouldBe track.name
+                duration shouldBe track.duration
+            }
+        }
 
-    @Before
-    fun setUp() {
-
-        track = Track("track name", 10)
-        tracks = listOf(track, track)
-
-        trackDataMapper = TrackDataMapper()
+        "transform tracks return valid list" {
+            transform(tracks).run {
+                size shouldBe 2
+                get(0).run {
+                    name shouldBe track.name
+                    duration shouldBe track.duration
+                }
+                get(1).run {
+                    name shouldBe track.name
+                    duration shouldBe track.duration
+                }
+            }
+        }
     }
 
-    @Test
-    fun testTransformTrack() {
-        // When
-        val transformedTrack = trackDataMapper.transform(1, track)
 
-        // Then
-        assertEquals(1, transformedTrack.number)
-        assertEquals(track.name, transformedTrack.name)
-        assertEquals(track.duration, transformedTrack.duration)
-    }
-
-    @Test
-    fun testTransformTracks() {
-        // When
-        val transformedTracks = trackDataMapper.transform(tracks)
-
-        // Then
-        assertEquals(2, transformedTracks.size)
-        assertEquals(track.name, transformedTracks[0].name)
-        assertEquals(track.name, transformedTracks[1].name)
-        assertEquals(track.duration, transformedTracks[0].duration)
-        assertEquals(track.duration, transformedTracks[1].duration)
-    }
 }

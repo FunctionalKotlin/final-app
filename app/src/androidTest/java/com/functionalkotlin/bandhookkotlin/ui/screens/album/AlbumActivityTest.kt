@@ -11,7 +11,7 @@ import android.widget.ImageView
 import com.functionalkotlin.bandhookkotlin.domain.entity.Track
 import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.transform
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity
 import com.squareup.picasso.Callback
@@ -62,7 +62,6 @@ class AlbumActivityTest : ActivityInstrumentationTestCase2<AlbumActivity>(
         assertNotNull(albumActivity.ui.trackList)
         assertNotNull(albumActivity.ui.listCard)
         assertNotNull(albumActivity.albumListBreakingEdgeHeight)
-        assertNotNull(albumActivity.trackDataMapper)
         assertNotNull(albumActivity.presenter)
         assertNotNull(albumActivity.adapter)
         assertNull(albumActivity.title)
@@ -112,7 +111,7 @@ class AlbumActivityTest : ActivityInstrumentationTestCase2<AlbumActivity>(
         picassoCallbackArgumentCaptor.value.onSuccess()
 
         // Then
-        assertEquals(albumActivity.adapter.items, TrackDataMapper().transform(albumDetail.tracks))
+        assertEquals(albumActivity.adapter.items, transform(albumDetail.tracks))
     }
 
     @UiThreadTest
