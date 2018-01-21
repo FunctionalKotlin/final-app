@@ -15,6 +15,7 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
 import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.functional.*
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -69,17 +70,19 @@ class CloudAlbumDataSetTest: StringSpec() {
         }
 
         "requestTopAlbums with valid artist mbid returns valid list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID)
+            val result = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID).runSync()
 
             verify(lastFmService).requestAlbums(ARTIST_MBID, "")
-            albums shouldBe transform(lastFmResponse.topAlbums.albums)
+            result.isSuccess() shouldBe true
+            (result as Success).value shouldBe transform(lastFmResponse.topAlbums.albums)
         }
 
-        "requestTopAlbums with invalid arguments returns empty list" {
-            val albums = cloudAlbumDataSet.requestTopAlbums("")
+        "requestTopAlbums with invalid arguments returns error" {
+            val result = cloudAlbumDataSet.requestTopAlbums("").runSync()
 
             verify(lastFmService, never()).requestAlbums(anyString(), anyString())
-            albums should beEmpty()
+            result.isFailure() shouldBe true
+            (result as Failure).error shouldBe TopAlbumsNotFound("")
         }
     }
 
