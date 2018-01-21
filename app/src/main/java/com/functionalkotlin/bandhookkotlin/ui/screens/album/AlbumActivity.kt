@@ -14,6 +14,7 @@ import android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 import com.functionalkotlin.bandhookkotlin.R
 import com.functionalkotlin.bandhookkotlin.di.ApplicationComponent
 import com.functionalkotlin.bandhookkotlin.di.subcomponent.album.AlbumActivityModule
+import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
@@ -100,7 +101,11 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
 
         albumDetail?.let(this::updateAlbumDetail)
                 ?: postponeTransitions()
+    }
 
+    override fun showAlbumNotFound(e: AlbumNotFound) {
+        supportStartPostponedEnterTransition()
+        supportFinishAfterTransition()
     }
 
     private fun updateAlbumDetail(albumDetail: AlbumDetail) {

@@ -37,11 +37,8 @@ class AlbumActivityModule(activity: AlbumActivity) : ActivityModule(activity) {
     fun provideTracksAdapter() = TracksAdapter()
 
     @Provides @ActivityScope
-    fun provideAlbumPresenter(view: AlbumView,
-                              bus: Bus,
-                              albumInteractor: GetAlbumDetailInteractor,
-                              interactorExecutor: InteractorExecutor,
-                              albumDetailDataMapper: AlbumDetailDataMapper)
-            = AlbumPresenter(view, bus, albumInteractor,
-            interactorExecutor, albumDetailDataMapper)
+    fun provideAlbumPresenter(
+        view: AlbumView, bus: Bus, albumInteractor: GetAlbumDetailInteractor,
+        albumDetailDataMapper: AlbumDetailDataMapper) =
+            AlbumPresenter(view, bus, albumInteractor, albumDetailDataMapper)
 }
