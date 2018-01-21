@@ -2,17 +2,14 @@
 
 package com.functionalkotlin.bandhookkotlin.domain.interactor
 
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Event
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Interactor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.TopAlbumsEvent
+import com.functionalkotlin.bandhookkotlin.domain.entity.Album
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
-class GetTopAlbumsInteractor(val albumRepository: AlbumRepository) : Interactor {
+class GetTopAlbumsInteractor(val albumRepository: AlbumRepository) {
 
-    var artistId: String = ""
+    fun getTopAlbums(artistId: String): AsyncResult<List<Album>, TopAlbumsNotFound> =
+        albumRepository.getTopAlbums(artistId)
 
-    override fun invoke(): Event =
-        artistId.takeIf { it.isNotBlank() }?.let {
-            TopAlbumsEvent(albumRepository.getTopAlbums(artistId))
-        } ?: throw IllegalStateException("mbid cannot be blank")
 }

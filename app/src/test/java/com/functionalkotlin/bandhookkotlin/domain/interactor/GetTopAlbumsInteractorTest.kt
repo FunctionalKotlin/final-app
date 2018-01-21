@@ -4,9 +4,12 @@ package com.functionalkotlin.bandhookkotlin.domain.interactor
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.TopAlbumsEvent
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import org.junit.Assert
+import com.functionalkotlin.bandhookkotlin.functional.Success
+import com.functionalkotlin.bandhookkotlin.functional.isSuccess
+import com.functionalkotlin.bandhookkotlin.functional.result
+import com.functionalkotlin.bandhookkotlin.functional.runSync
+import io.kotlintest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,29 +33,16 @@ class GetTopAlbumsInteractorTest {
     fun setUp() {
         album = Album("album id", "Album name", Artist("artist id", "artist name"), null, emptyList())
 
-        `when`(albumRepository.getTopAlbums(artistId)).thenReturn(listOf(album))
+        `when`(albumRepository.getTopAlbums(artistId)).thenReturn(listOf(album).result())
 
         getTopAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
     }
 
     @Test
     fun testInvoke_withArtistId() {
-        // Given
-        getTopAlbumsInteractor.artistId = artistId
+        val result = getTopAlbumsInteractor.getTopAlbums(artistId).runSync()
 
-        // When
-        val event = getTopAlbumsInteractor.invoke()
-
-        // Then
-        Assert.assertEquals(TopAlbumsEvent::class.java, event.javaClass)
-        Assert.assertEquals(album, (event as TopAlbumsEvent).topAlbums[0])
-    }
-
-    @Test(expected = IllegalStateException::class)
-    fun testInvoke_withoutData() {
-        // When
-        getTopAlbumsInteractor.invoke()
-
-        // Then expected illegal state exception
+        result.isSuccess() shouldBe true
+        (result as Success).value[0] shouldBe album
     }
 }
