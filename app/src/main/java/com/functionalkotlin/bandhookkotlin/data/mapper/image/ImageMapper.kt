@@ -5,13 +5,10 @@ package com.functionalkotlin.bandhookkotlin.data.mapper.image
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImage
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType
 
-class ImageMapper {
-    fun getMainImageUrl(images: List<LastFmImage>?): String? {
-        if (images == null || images.isEmpty()) {
-            return null
+fun getMainImageUrl(images: List<LastFmImage>?): String? =
+    images
+        .takeIf { it != null && !it.isEmpty() }
+        ?.let { list ->
+            list.firstOrNull { it.size == LastFmImageType.MEGA.type }?.url
+                ?: list.last().url
         }
-
-        val image = images.firstOrNull { it.size == LastFmImageType.MEGA.type }
-        return image?.url ?: images.last().url
-    }
-}

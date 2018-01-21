@@ -16,22 +16,20 @@ class ImageMapperTest: StringSpec() {
         val imagesWithMegaImage = listOf(smallImage, megaImage, largeImage)
         val imagesWithoutMegaImage = listOf(smallImage, largeImage)
 
-        val imageMapper = ImageMapper()
-
         "getMainImageUrl from list with mega image returns mega image url" {
-            imageMapper.getMainImageUrl(imagesWithMegaImage) shouldBe "mega"
+            getMainImageUrl(imagesWithMegaImage) shouldBe "mega"
         }
 
         "getMainImageUrl from list without mega image returns last image url" {
-            imageMapper.getMainImageUrl(imagesWithoutMegaImage) shouldBe "large"
+            getMainImageUrl(imagesWithoutMegaImage) shouldBe "large"
         }
 
         "getMainImageUrl from null list returns null" {
-            imageMapper.getMainImageUrl(null) shouldBe null
+            getMainImageUrl(null) shouldBe null
         }
 
         "getMainImageUrl from empty list returns null" {
-            imageMapper.getMainImageUrl(emptyList()) shouldBe null
+            getMainImageUrl(emptyList()) shouldBe null
         }
     }
 }
