@@ -13,7 +13,7 @@ import com.functionalkotlin.bandhookkotlin.functional.bind
 import com.functionalkotlin.bandhookkotlin.functional.result
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
-class CloudAlbumDataSet(val lastFmService: LastFmService) : AlbumDataSet {
+class CloudAlbumDataSet(private val lastFmService: LastFmService) : AlbumDataSet {
 
     override fun requestAlbum(mbid: String): AsyncResult<Album, AlbumNotFound> =
         lastFmService.requestAlbum(mbid).asyncResult().bind { response ->

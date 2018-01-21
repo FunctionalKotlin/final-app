@@ -7,14 +7,11 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import com.functionalkotlin.bandhookkotlin.functional.Failure
-import com.functionalkotlin.bandhookkotlin.functional.Success
 import com.functionalkotlin.bandhookkotlin.functional.asError
-import com.functionalkotlin.bandhookkotlin.functional.isFailure
-import com.functionalkotlin.bandhookkotlin.functional.isSuccess
 import com.functionalkotlin.bandhookkotlin.functional.result
-import com.functionalkotlin.bandhookkotlin.functional.runSync
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
+import com.functionalkotlin.bandhookkotlin.util.asFailure
+import com.functionalkotlin.bandhookkotlin.util.asSuccess
 import io.kotlintest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
@@ -76,45 +73,36 @@ class AlbumRepositoryImplTest {
 
     @Test
     fun testGetAlbum_existingInBothDataSets() {
-        // When
-        val album = albumRepository.getAlbum(albumIdInBothDataSets).runSync()
+        val asyncResult = albumRepository.getAlbum(albumIdInBothDataSets)
 
-        // Then
-        album.isSuccess() shouldBe true
-        (album as Success).value shouldBe albumInBothDataSets
+        asyncResult.asSuccess { shouldBe(albumInBothDataSets) }
     }
 
     @Test
     fun testGetAlbum_existingOnlyInSecondDataSet() {
-        // When
-        val album = albumRepository.getAlbum(albumIdInSecondDataSet).runSync()
+        val asyncResult = albumRepository.getAlbum(albumIdInSecondDataSet)
 
-        // Then
-        album.isSuccess() shouldBe true
-        (album as Success).value shouldBe albumInSecondDataSet
+        asyncResult.asSuccess { shouldBe(albumInSecondDataSet) }
     }
 
     @Test
     fun testGetTopAlbums_withArtistId() {
-        val result = albumRepository.getTopAlbums(artistIdInBothDataSets).runSync()
+        val asyncResult = albumRepository.getTopAlbums(artistIdInBothDataSets)
 
-        result.isSuccess() shouldBe true
-        (result as Success).value shouldBe albumsInBothDataSets
+        asyncResult.asSuccess { shouldBe(albumsInBothDataSets) }
     }
 
     @Test
     fun testGetTopAlbums_withArtistIdExistingOnlyInSecondDataSet() {
-        val result = albumRepository.getTopAlbums(artistIdInSecondDataSet).runSync()
+        val asyncResult = albumRepository.getTopAlbums(artistIdInSecondDataSet)
 
-        result.isSuccess() shouldBe true
-        (result as Success).value shouldBe albumsInSecondDataSet
+        asyncResult.asSuccess { shouldBe(albumsInSecondDataSet) }
     }
 
     @Test
     fun testGetTopAlbums_withArtistIdAndArtistName() {
-        val result = albumRepository.getTopAlbums("").runSync()
+        val asyncResult = albumRepository.getTopAlbums("")
 
-        result.isFailure() shouldBe true
-        (result as Failure).error shouldBe TopAlbumsNotFound("")
+        asyncResult.asFailure { shouldBe(TopAlbumsNotFound("")) }
     }
 }

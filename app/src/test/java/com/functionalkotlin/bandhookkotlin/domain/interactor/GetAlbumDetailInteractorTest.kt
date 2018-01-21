@@ -5,10 +5,8 @@ package com.functionalkotlin.bandhookkotlin.domain.interactor
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import com.functionalkotlin.bandhookkotlin.functional.Success
-import com.functionalkotlin.bandhookkotlin.functional.isSuccess
 import com.functionalkotlin.bandhookkotlin.functional.result
-import com.functionalkotlin.bandhookkotlin.functional.runSync
+import com.functionalkotlin.bandhookkotlin.util.asSuccess
 import io.kotlintest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
@@ -37,9 +35,8 @@ class GetAlbumDetailInteractorTest {
 
     @Test
     fun testInvoke_withId() {
-        val result = getAlbumDetailInteractor.getAlbum(albumId).runSync()
+        val asyncResult = getAlbumDetailInteractor.getAlbum(albumId)
 
-        result.isSuccess() shouldBe true
-        (result as Success).value.id shouldBe albumId
+        asyncResult.asSuccess { this.id shouldBe albumId }
     }
 }

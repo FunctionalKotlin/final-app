@@ -16,11 +16,8 @@ import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
-import com.functionalkotlin.bandhookkotlin.functional.Failure
-import com.functionalkotlin.bandhookkotlin.functional.Success
-import com.functionalkotlin.bandhookkotlin.functional.isFailure
-import com.functionalkotlin.bandhookkotlin.functional.isSuccess
-import com.functionalkotlin.bandhookkotlin.functional.runSync
+import com.functionalkotlin.bandhookkotlin.util.asFailure
+import com.functionalkotlin.bandhookkotlin.util.asSuccess
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
@@ -49,38 +46,34 @@ class CloudAlbumDataSetTest : StringSpec() {
         val cloudAlbumDataSet = CloudAlbumDataSet(lastFmService)
 
         "requestAlbum with valid mbid returns valid album" {
-            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID).runSync()
+            val asyncResult = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
 
             verify(lastFmService).requestAlbum(ALBUM_MBID)
-            album.isSuccess() shouldBe true
-            (album as Success).value shouldBe transform(lastFmResponse.album)
+            asyncResult.asSuccess { shouldBe(transform(lastFmResponse.album)) }
         }
 
         "requestAlbum with unknown mbid returns null" {
             whenever(lastFmService.requestAlbum(ALBUM_MBID))
                 .thenReturn(fakeCall(lastFmResponse(unknownAlbumDetail)))
 
-            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID).runSync()
+            val asyncResult = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
 
             verify(lastFmService).requestAlbum(ALBUM_MBID)
-            album.isFailure() shouldBe true
-            (album as Failure).error shouldBe AlbumNotFound(ALBUM_MBID)
+            asyncResult.asFailure { shouldBe(AlbumNotFound(ALBUM_MBID)) }
         }
 
         "requestTopAlbums with valid artist mbid returns valid list" {
-            val result = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID).runSync()
+            val asyncResult = cloudAlbumDataSet.requestTopAlbums(ARTIST_MBID)
 
             verify(lastFmService).requestAlbums(ARTIST_MBID, "")
-            result.isSuccess() shouldBe true
-            (result as Success).value shouldBe transform(lastFmResponse.topAlbums.albums)
+            asyncResult.asSuccess { shouldBe(transform(lastFmResponse.topAlbums.albums)) }
         }
 
         "requestTopAlbums with invalid arguments returns error" {
-            val result = cloudAlbumDataSet.requestTopAlbums("").runSync()
+            val asyncResult = cloudAlbumDataSet.requestTopAlbums("")
 
             verify(lastFmService, never()).requestAlbums(anyString(), anyString())
-            result.isFailure() shouldBe true
-            (result as Failure).error shouldBe TopAlbumsNotFound("")
+            asyncResult.asFailure { shouldBe(TopAlbumsNotFound("")) }
         }
     }
 

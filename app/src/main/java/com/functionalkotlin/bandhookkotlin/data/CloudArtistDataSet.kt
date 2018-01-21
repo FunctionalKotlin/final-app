@@ -7,7 +7,8 @@ import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.repository.dataset.ArtistDataSet
 
-class CloudArtistDataSet(val language: String, val lastFmService: LastFmService) : ArtistDataSet {
+class CloudArtistDataSet(
+    private val language: String, private val lastFmService: LastFmService) : ArtistDataSet {
 
     val coldplayMbid = "cc197bad-dc9c-440d-a5b5-d52ba2e14234"
 
