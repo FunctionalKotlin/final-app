@@ -61,6 +61,7 @@ dependencies {
     testCompile(config.libs.kotlinStdlib)
     testCompile(config.testLibs.junit)
     testCompile(config.testLibs.mockito)
+    testCompile(config.testLibs.kotlinTest)
 
     androidTestCompile(config.libs.kotlinStdlib)
     androidTestCompile(config.testLibs.mockito)
