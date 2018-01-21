@@ -7,7 +7,7 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistsEvent
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.MainView
 
 class MainPresenter(

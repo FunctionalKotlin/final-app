@@ -1,6 +1,6 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
+package com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.ui.entity.ArtistDetail

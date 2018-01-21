@@ -4,6 +4,7 @@ package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before

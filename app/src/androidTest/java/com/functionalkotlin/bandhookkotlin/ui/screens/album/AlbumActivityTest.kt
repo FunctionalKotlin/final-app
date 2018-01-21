@@ -11,7 +11,7 @@ import android.widget.ImageView
 import com.functionalkotlin.bandhookkotlin.domain.entity.Track
 import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.TrackDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity
 import com.squareup.picasso.Callback

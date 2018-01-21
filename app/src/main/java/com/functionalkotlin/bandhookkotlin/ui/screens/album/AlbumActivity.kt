@@ -19,7 +19,7 @@ import com.functionalkotlin.bandhookkotlin.ui.activity.BaseActivity
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
 import com.functionalkotlin.bandhookkotlin.ui.entity.TrackDetail
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.TrackDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.track.TrackDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId
 import com.functionalkotlin.bandhookkotlin.ui.util.into

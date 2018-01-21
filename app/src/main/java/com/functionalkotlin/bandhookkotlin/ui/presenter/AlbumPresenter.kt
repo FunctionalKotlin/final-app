@@ -6,7 +6,7 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.GetAlbumDetailInter
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.functional.fold
 import com.functionalkotlin.bandhookkotlin.functional.runAsync
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.AlbumDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.album.detail.AlbumDetailDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.AlbumView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch

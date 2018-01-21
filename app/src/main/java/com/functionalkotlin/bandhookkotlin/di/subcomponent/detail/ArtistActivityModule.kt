@@ -8,8 +8,8 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.GetArtistDetailInte
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ArtistDetailDataMapper
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.ArtistDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.ArtistPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.AlbumsFragment
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity

@@ -10,8 +10,8 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailE
 import com.functionalkotlin.bandhookkotlin.functional.fold
 import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ArtistDetailDataMapper
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.ArtistDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch

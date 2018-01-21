@@ -11,8 +11,8 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailE
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ArtistDetailDataMapper
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.ArtistDetailDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import org.junit.Before
 import org.junit.Test
