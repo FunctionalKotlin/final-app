@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © FunctionalKotlin.com 2018. All rights reserved.
+  -->
+
+<resources>
+    <integer name="cache_duration">86400</integer>
+</resources>

@@ -1,0 +1,7 @@
+<!--
+  ~ Copyright © FunctionalKotlin.com 2018. All rights reserved.
+  -->
+
+<resources>
+    <dimen name="recycler_spacing">64dp</dimen>
+</resources>
