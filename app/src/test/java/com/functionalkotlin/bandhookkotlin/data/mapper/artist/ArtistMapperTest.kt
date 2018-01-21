@@ -1,20 +1,16 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.data.mapper
+package com.functionalkotlin.bandhookkotlin.data.mapper.artist
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmArtist
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmBio
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImage
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType
+import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import io.kotlintest.matchers.haveSize
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.specs.StringSpec
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
 
 class ArtistMapperTest: StringSpec() {
     init {
@@ -37,10 +33,8 @@ class ArtistMapperTest: StringSpec() {
             invalidLastFmArtist,
             validLastFmArtistWithoutMegaImage)
 
-        val artistMapper = ArtistMapper()
-
         "transform valid list returns artist list" {
-            val artists = artistMapper.transform(artistsList)
+            val artists = transform(artistsList)
 
             artists should haveSize(2)
             artists[0].id shouldBe validLastFmArtistWithMegaImage.mbid
@@ -48,7 +42,7 @@ class ArtistMapperTest: StringSpec() {
         }
 
         "transform artist with mega image return valid artist" {
-            val artist = artistMapper.transform(validLastFmArtistWithMegaImage)
+            val artist = transform(validLastFmArtistWithMegaImage)
 
             artist?.run {
                 id shouldBe validLastFmArtistWithMegaImage.mbid
@@ -59,7 +53,7 @@ class ArtistMapperTest: StringSpec() {
         }
 
         "transform artist without mega image return valid artist" {
-            val artist = artistMapper.transform(validLastFmArtistWithoutMegaImage)
+            val artist = transform(validLastFmArtistWithoutMegaImage)
 
             artist?.run {
                 id shouldBe validLastFmArtistWithoutMegaImage.mbid
@@ -70,7 +64,7 @@ class ArtistMapperTest: StringSpec() {
         }
 
         "transform invalid artist returns null" {
-            artistMapper.transform(invalidLastFmArtist) shouldBe null
+            transform(invalidLastFmArtist) shouldBe null
         }
     }
 

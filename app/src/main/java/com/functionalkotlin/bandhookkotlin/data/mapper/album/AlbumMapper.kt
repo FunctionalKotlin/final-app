@@ -1,9 +1,13 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.data.mapper
+package com.functionalkotlin.bandhookkotlin.data.mapper.album
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmAlbum
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmAlbumDetail
+import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmArtist
+import com.functionalkotlin.bandhookkotlin.data.mapper.ImageMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.TrackMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 
@@ -21,11 +25,11 @@ fun transform(
     }
 
 fun transform(
-    album: LastFmAlbum, artistMapper: ArtistMapper = ArtistMapper(),
+    album: LastFmAlbum, artistMapper: ((LastFmArtist) -> Artist?) = { transform(it) },
     imageMapper: ImageMapper = ImageMapper(), trackMapper: TrackMapper = TrackMapper()) =
         album.mbid?.let {
             Album(
-                it, album.name, artistMapper.transform(album.artist),
+                it, album.name, artistMapper(album.artist),
                 imageMapper.getMainImageUrl(album.images),
                 trackMapper.transform(album.tracks?.tracks))
         }

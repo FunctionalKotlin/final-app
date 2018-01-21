@@ -11,7 +11,7 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmResponse
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmResult
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
-import com.functionalkotlin.bandhookkotlin.data.mapper.ArtistMapper
+import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -33,8 +33,6 @@ class CloudArtistDataSetTest {
     lateinit var lastFmResponse: LastFmResponse
     lateinit var recommendedArtistList: List<LastFmArtist>
     lateinit var lastFmArtist: LastFmArtist
-
-    val artistMapper = ArtistMapper()
 
     lateinit var cloudArtistDataSet: CloudArtistDataSet
 
@@ -66,7 +64,7 @@ class CloudArtistDataSetTest {
 
         // Then
         verify(lastFmService).requestSimilar(cloudArtistDataSet.coldplayMbid)
-        assertEquals(artistMapper.transform(recommendedArtistList), recommendedArtists)
+        assertEquals(transform(recommendedArtistList), recommendedArtists)
     }
 
     @Test
@@ -76,7 +74,7 @@ class CloudArtistDataSetTest {
 
         // Then
         verify(lastFmService).requestArtistInfo(artistMbid, language)
-        assertEquals(artistMapper.transform(lastFmArtist), requestedArtist)
+        assertEquals(transform(lastFmArtist), requestedArtist)
     }
 
     @Test

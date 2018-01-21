@@ -3,7 +3,7 @@
 package com.functionalkotlin.bandhookkotlin.data
 
 import com.functionalkotlin.bandhookkotlin.data.lastfm.LastFmService
-import com.functionalkotlin.bandhookkotlin.data.mapper.transform
+import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
