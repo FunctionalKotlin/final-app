@@ -15,13 +15,11 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initializeDagger()
-    }
 
-    fun initializeDagger() {
         graph = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
     }
+
 }
 

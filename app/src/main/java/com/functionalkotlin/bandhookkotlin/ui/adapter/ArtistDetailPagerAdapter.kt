@@ -9,14 +9,14 @@ import java.util.LinkedHashMap
 
 class ArtistDetailPagerAdapter(fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager) {
-    val fragments = LinkedHashMap<Fragment, String>()
+    private val fragments = LinkedHashMap<Fragment, String>()
 
     override fun getItem(position: Int): Fragment? = fragments.keys.elementAt(position)
 
     override fun getCount(): Int = fragments.keys.size
 
     fun addFragment(fragment: Fragment, title: String) {
-        fragments.put(fragment, title)
+        fragments[fragment] = title
     }
 
     override fun getPageTitle(position: Int): CharSequence = fragments.values.elementAt(position)

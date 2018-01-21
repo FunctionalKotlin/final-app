@@ -30,8 +30,7 @@ class TracksAdapter : BaseAdapter<TrackDetail, TracksAdapter.Component>() {
     private fun secondsToTrackDurationString(item: TrackDetail): String {
         val fullMinutes = item.duration / timeSystemBaseNumber
         val restSeconds = item.duration % timeSystemBaseNumber
-        val trackLength = String.format(timeStampPattern, fullMinutes, restSeconds)
-        return trackLength
+        return String.format(timeStampPattern, fullMinutes, restSeconds)
     }
 
     override fun onCreateComponent(parent: RecyclerView) = Component(parent)

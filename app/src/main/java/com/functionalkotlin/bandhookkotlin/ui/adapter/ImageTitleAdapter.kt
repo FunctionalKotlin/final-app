@@ -21,8 +21,8 @@ import org.jetbrains.anko.padding
 import org.jetbrains.anko.textView
 import org.jetbrains.anko.verticalLayout
 
-class ImageTitleAdapter(listener: (ImageTitle) -> Unit)
-    : BaseAdapter<ImageTitle, ImageTitleAdapter.Component>(listener) {
+class ImageTitleAdapter(listener: (ImageTitle) -> Unit) :
+    BaseAdapter<ImageTitle, ImageTitleAdapter.Component>(listener) {
 
     override val bind: Component.(item: ImageTitle) -> Unit = { item ->
         title.text = item.name

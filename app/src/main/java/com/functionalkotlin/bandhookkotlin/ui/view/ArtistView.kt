@@ -9,12 +9,8 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 
 interface ArtistView : PresentationView {
     fun showArtist(artistDetail: ArtistDetail)
-
     fun showAlbums(albums: List<ImageTitle>)
-
     fun showAlbumsNotFound(e: TopAlbumsNotFound)
-
     fun showArtistNotFound(it: ArtistNotFound)
-
     fun navigateToAlbum(albumId: String)
 }

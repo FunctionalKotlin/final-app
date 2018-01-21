@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import org.jetbrains.anko.AnkoComponent
 
+@Suppress("AddVarianceModifier")
 interface ActivityAnkoComponent<T : AppCompatActivity> : AnkoComponent<T> {
     val toolbar: Toolbar
 }

@@ -19,25 +19,21 @@ import org.mockito.junit.MockitoJUnitRunner
 class ArtistPresenterTest {
 
     @Mock
-    lateinit var artistView: ArtistView
+    private lateinit var artistView: ArtistView
     @Mock
-    lateinit var artistRepository: ArtistRepository
+    private lateinit var artistRepository: ArtistRepository
     @Mock
-    lateinit var albumRepository: AlbumRepository
+    private lateinit var albumRepository: AlbumRepository
 
-    lateinit var artistDetailInteractor: GetArtistDetailInteractor
-    lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
+    private lateinit var artistDetailInteractor: GetArtistDetailInteractor
+    private lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
 
-    lateinit var artistPresenter: ArtistPresenter
-
-    private val artistId = "artist id"
+    private lateinit var artistPresenter: ArtistPresenter
 
     @Before
     fun setUp() {
         artistDetailInteractor = GetArtistDetailInteractor(artistRepository)
         topAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
-
-
         artistPresenter = ArtistPresenter(artistView, artistDetailInteractor, topAlbumsInteractor)
     }
 

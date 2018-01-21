@@ -22,5 +22,5 @@ class MainActivityModule(activity: MainActivity) : ActivityModule(activity) {
     @ActivityScope
     fun provideMainPresenter(
         view: MainView, recommendedArtistsInteractor: GetRecommendedArtistsInteractor) =
-        MainPresenter(view, recommendedArtistsInteractor)
+            MainPresenter(view, recommendedArtistsInteractor)
 }

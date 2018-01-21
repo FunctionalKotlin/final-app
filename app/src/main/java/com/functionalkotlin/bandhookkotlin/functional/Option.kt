@@ -15,7 +15,7 @@ fun <A, B> Option<A>.map(transform: (A) -> B): Option<B> =
     flatMap { Just(transform(it)) }
 
 fun <A, B> Option<A>.flatMap(transform: (A) -> Option<B>): Option<B> = when (this) {
-    is None -> None
+    None -> None
     is Just -> transform(this.value)
 }
 

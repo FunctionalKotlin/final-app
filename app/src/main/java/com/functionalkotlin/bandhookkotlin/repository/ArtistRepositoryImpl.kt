@@ -11,7 +11,7 @@ import com.functionalkotlin.bandhookkotlin.functional.asError
 import com.functionalkotlin.bandhookkotlin.functional.firstSuccessIn
 import com.functionalkotlin.bandhookkotlin.repository.dataset.ArtistDataSet
 
-class ArtistRepositoryImp(private val artistDataSets: List<ArtistDataSet>) : ArtistRepository {
+class ArtistRepositoryImpl(private val artistDataSets: List<ArtistDataSet>) : ArtistRepository {
 
     override fun getRecommendedArtists(): AsyncResult<List<Artist>, RecommendationNotFound> =
         firstSuccessIn(

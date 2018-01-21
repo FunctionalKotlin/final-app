@@ -24,7 +24,6 @@ class SquareImageView : ImageView {
     }
 }
 
-fun ViewManager.squareImageView(theme: Int = 0) = squareImageView(theme) {}
 inline fun ViewManager.squareImageView(theme: Int = 0, init: SquareImageView.() -> Unit) =
     ankoView(::SquareImageView, theme, init)
 

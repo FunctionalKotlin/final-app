@@ -6,6 +6,7 @@ import android.os.Build
 import android.support.annotation.StyleRes
 import android.support.v4.widget.TextViewCompat
 import android.text.Html
+import android.text.Spanned
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,7 +28,7 @@ fun TextView.setTextAppearanceC(@StyleRes textAppearance: Int)
     = TextViewCompat.setTextAppearance(this, textAppearance)
 
 @Suppress("DEPRECATION")
-fun String.fromHtml() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+fun String.fromHtml(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
     Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
 } else {
     Html.fromHtml(this)

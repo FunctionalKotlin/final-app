@@ -7,9 +7,7 @@ import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = arrayOf(
-    AlbumActivityModule::class
-))
+@Subcomponent(modules = [(AlbumActivityModule::class)])
 interface AlbumActivityComponent {
     fun injectTo(activity: AlbumActivity)
 }

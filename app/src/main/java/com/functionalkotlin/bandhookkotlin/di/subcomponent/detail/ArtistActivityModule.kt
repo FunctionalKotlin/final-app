@@ -24,11 +24,9 @@ class ArtistActivityModule(activity: ArtistActivity) : ActivityModule(activity) 
     @Provides
     @ActivityScope
     fun provideActivityPresenter(
-        view: ArtistView,
-        artistDetailInteractor: GetArtistDetailInteractor,
-        topAlbumsInteractor: GetTopAlbumsInteractor)
-        = ArtistPresenter(
-        view, artistDetailInteractor, topAlbumsInteractor)
+        view: ArtistView, artistDetailInteractor: GetArtistDetailInteractor,
+        topAlbumsInteractor: GetTopAlbumsInteractor) =
+            ArtistPresenter(view, artistDetailInteractor, topAlbumsInteractor)
 
     @Provides
     @ActivityScope

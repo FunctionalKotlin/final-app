@@ -8,8 +8,6 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.RecommendationNotFound
 import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
 interface ArtistDataSet {
-
     fun requestArtist(id: String): AsyncResult<Artist, ArtistNotFound>
     fun requestRecommendedArtists(): AsyncResult<List<Artist>, RecommendationNotFound>
-
 }

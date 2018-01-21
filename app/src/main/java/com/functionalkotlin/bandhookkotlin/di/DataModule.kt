@@ -53,8 +53,8 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideRequestInterceptor(@ApiKey apiKey: String, @CacheDuration cacheDuration: Int)
-        = LastFmRequestInterceptor(apiKey, cacheDuration)
+    fun provideRequestInterceptor(@ApiKey apiKey: String, @CacheDuration cacheDuration: Int) =
+        LastFmRequestInterceptor(apiKey, cacheDuration)
 
     @Provides
     @Singleton

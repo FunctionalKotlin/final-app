@@ -7,10 +7,7 @@ import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = arrayOf(
-    ArtistActivityModule::class
-))
+@Subcomponent(modules = [(ArtistActivityModule::class)])
 interface ArtistActivityComponent {
-
     fun injectTo(activity: ArtistActivity)
 }

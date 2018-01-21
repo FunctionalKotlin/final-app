@@ -11,7 +11,7 @@ import com.functionalkotlin.bandhookkotlin.ui.util.singleClick
 import kotlin.properties.Delegates
 
 abstract class BaseAdapter<Item, Component : ViewAnkoComponent<RecyclerView>>(
-    val listener: (Item) -> Unit = {}) : Adapter<BaseViewHolder<Component>>() {
+    private val listener: (Item) -> Unit = {}) : Adapter<BaseViewHolder<Component>>() {
 
     abstract val bind: Component.(item: Item) -> Unit
 

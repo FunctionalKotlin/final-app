@@ -15,18 +15,18 @@ import dagger.Provides
 class DomainModule {
 
     @Provides
-    fun provideRecommendedArtistsInteractor(artistRepository: ArtistRepository)
-        = GetRecommendedArtistsInteractor(artistRepository)
+    fun provideRecommendedArtistsInteractor(artistRepository: ArtistRepository) =
+        GetRecommendedArtistsInteractor(artistRepository)
 
     @Provides
-    fun provideArtistDetailInteractor(artistRepository: ArtistRepository)
-        = GetArtistDetailInteractor(artistRepository)
+    fun provideArtistDetailInteractor(artistRepository: ArtistRepository) =
+        GetArtistDetailInteractor(artistRepository)
 
     @Provides
-    fun provideTopAlbumsInteractor(albumRepository: AlbumRepository)
-        = GetTopAlbumsInteractor(albumRepository)
+    fun provideTopAlbumsInteractor(albumRepository: AlbumRepository) =
+        GetTopAlbumsInteractor(albumRepository)
 
     @Provides
-    fun provideAlbumsDetailInteractor(albumRepository: AlbumRepository)
-        = GetAlbumDetailInteractor(albumRepository)
+    fun provideAlbumsDetailInteractor(albumRepository: AlbumRepository) =
+        GetAlbumDetailInteractor(albumRepository)
 }

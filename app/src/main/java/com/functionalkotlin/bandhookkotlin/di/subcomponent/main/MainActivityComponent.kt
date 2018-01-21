@@ -7,10 +7,7 @@ import com.functionalkotlin.bandhookkotlin.ui.screens.main.MainActivity
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = arrayOf(
-    MainActivityModule::class
-))
+@Subcomponent(modules = [(MainActivityModule::class)])
 interface MainActivityComponent {
-
     fun injectTo(activity: MainActivity)
 }

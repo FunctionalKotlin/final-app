@@ -31,7 +31,6 @@ class AlbumActivityModule(activity: AlbumActivity) : ActivityModule(activity) {
 
     @Provides
     @ActivityScope
-    fun provideAlbumPresenter(
-        view: AlbumView, albumInteractor: GetAlbumDetailInteractor) =
+    fun provideAlbumPresenter(view: AlbumView, albumInteractor: GetAlbumDetailInteractor) =
         AlbumPresenter(view, albumInteractor)
 }
