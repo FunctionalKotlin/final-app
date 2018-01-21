@@ -32,7 +32,7 @@ class MainActivity : BaseActivity<MainLayout>(), MainView {
 
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
         applicationComponent.plus(MainActivityModule(this))
-                .injectTo(this)
+            .injectTo(this)
     }
 
     override fun onResume() {
@@ -56,7 +56,7 @@ class MainActivity : BaseActivity<MainLayout>(), MainView {
     private fun findItemById(id: String): View {
         val pos = adapter.findPositionById(id)
         val holder = ui.recycler.findViewHolderForLayoutPosition(pos)
-                as BaseAdapter.BaseViewHolder<ImageTitleAdapter.Component>
+            as BaseAdapter.BaseViewHolder<ImageTitleAdapter.Component>
         return holder.ui.image
     }
 }

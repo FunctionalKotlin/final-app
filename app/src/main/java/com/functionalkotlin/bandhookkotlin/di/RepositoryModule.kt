@@ -17,11 +17,13 @@ import javax.inject.Singleton
 @Module
 class RepositoryModule {
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideArtistRepo(@LanguageSelection language: String, lastFmService: LastFmService):
         ArtistRepository = ArtistRepositoryImp(listOf(CloudArtistDataSet(language, lastFmService)))
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideAlbumRepo(lastFmService: LastFmService): AlbumRepository =
         AlbumRepositoryImpl(listOf(CloudAlbumDataSet(lastFmService)))
 }

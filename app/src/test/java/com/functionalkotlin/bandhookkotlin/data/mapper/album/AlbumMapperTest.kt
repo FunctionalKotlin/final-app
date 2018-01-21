@@ -9,10 +9,14 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImage
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTrack
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
-import io.kotlintest.matchers.*
+import io.kotlintest.matchers.beEmpty
+import io.kotlintest.matchers.haveSize
+import io.kotlintest.matchers.should
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.specs.StringSpec
 
-class AlbumMapperTest: StringSpec() {
+class AlbumMapperTest : StringSpec() {
     init {
         val lastFmArtist = LastFmArtist(
             "name", "artist mbid", "artist url", emptyList(), null, null)

@@ -12,10 +12,10 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 open class AlbumPresenter(
-        override val view: AlbumView,
-        override val bus: Bus,
-        val albumInteractor: GetAlbumDetailInteractor,
-        val albumDetailMapper: AlbumDetailDataMapper) : Presenter<AlbumView> {
+    override val view: AlbumView,
+    override val bus: Bus,
+    val albumInteractor: GetAlbumDetailInteractor,
+    val albumDetailMapper: AlbumDetailDataMapper) : Presenter<AlbumView> {
 
     open fun init(albumId: String) {
         launch(UI) {

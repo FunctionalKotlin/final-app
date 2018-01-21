@@ -3,13 +3,13 @@
 package com.functionalkotlin.bandhookkotlin.domain.interactor
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
-import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.AlbumEvent
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import com.functionalkotlin.bandhookkotlin.functional.*
+import com.functionalkotlin.bandhookkotlin.functional.Success
+import com.functionalkotlin.bandhookkotlin.functional.isSuccess
+import com.functionalkotlin.bandhookkotlin.functional.result
+import com.functionalkotlin.bandhookkotlin.functional.runSync
 import io.kotlintest.matchers.shouldBe
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +30,7 @@ class GetAlbumDetailInteractorTest {
     @Before
     fun setUp() {
         `when`(albumRepository.getAlbum(albumId)).thenReturn(Album("album id", "album name",
-                Artist("artist id", "artist name", null, null, null), "album url", emptyList()).result())
+            Artist("artist id", "artist name", null, null, null), "album url", emptyList()).result())
 
         getAlbumDetailInteractor = GetAlbumDetailInteractor(albumRepository)
     }

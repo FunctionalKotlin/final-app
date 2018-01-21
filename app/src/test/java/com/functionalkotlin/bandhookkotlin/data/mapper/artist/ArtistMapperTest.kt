@@ -6,13 +6,12 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmArtist
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmBio
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImage
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType
-import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import io.kotlintest.matchers.haveSize
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
-class ArtistMapperTest: StringSpec() {
+class ArtistMapperTest : StringSpec() {
     init {
         val coldplayBio = LastFmBio("British rock band formed in 1996")
         val megaImageUrl = "megaImageOneUrl"

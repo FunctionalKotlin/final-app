@@ -7,7 +7,10 @@ import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
-import com.functionalkotlin.bandhookkotlin.functional.*
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
+import com.functionalkotlin.bandhookkotlin.functional.asError
+import com.functionalkotlin.bandhookkotlin.functional.bind
+import com.functionalkotlin.bandhookkotlin.functional.result
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
 class CloudAlbumDataSet(val lastFmService: LastFmService) : AlbumDataSet {

@@ -7,7 +7,7 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmImageType
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
-class ImageMapperTest: StringSpec() {
+class ImageMapperTest : StringSpec() {
     init {
         val megaImage = LastFmImage("mega", LastFmImageType.MEGA.type)
         val largeImage = LastFmImage("large", LastFmImageType.LARGE.type)

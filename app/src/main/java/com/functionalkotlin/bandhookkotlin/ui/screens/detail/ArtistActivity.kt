@@ -9,7 +9,6 @@ import android.support.annotation.VisibleForTesting
 import android.support.v7.graphics.Palette
 import android.view.MenuItem
 import android.view.WindowManager
-import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.functionalkotlin.bandhookkotlin.R
 import com.functionalkotlin.bandhookkotlin.di.ApplicationComponent
 import com.functionalkotlin.bandhookkotlin.di.subcomponent.detail.ArtistActivityModule
@@ -23,6 +22,7 @@ import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumsPresenter
 import com.functionalkotlin.bandhookkotlin.ui.presenter.ArtistPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId
+import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.functionalkotlin.bandhookkotlin.ui.util.navigate
 import com.functionalkotlin.bandhookkotlin.ui.util.supportsLollipop
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
@@ -32,7 +32,8 @@ import javax.inject.Inject
 class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentContainer {
     override val ui = ArtistLayout()
 
-    @Inject @VisibleForTesting
+    @Inject
+    @VisibleForTesting
     lateinit var presenter: ArtistPresenter
 
     @Inject
@@ -55,7 +56,7 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
 
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
         applicationComponent.plus(ArtistActivityModule(this))
-                .injectTo(this)
+            .injectTo(this)
     }
 
     @SuppressLint("NewApi")
@@ -119,7 +120,7 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
     private fun makeStatusBarTransparent() {
         supportsLollipop {
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
     }
 

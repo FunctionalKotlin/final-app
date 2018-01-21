@@ -29,7 +29,7 @@ class BiographyFragmentTest : AndroidTestCase() {
         biographyTextView = TextView(context)
 
         `when`(layoutInflater.inflate(anyInt(), any(ViewGroup::class.java), anyBoolean()))
-                .thenReturn(mainView)
+            .thenReturn(mainView)
         `when`(mainView.findViewById<TextView>(anyInt())).thenReturn(biographyTextView)
 
         biographyFragment = BiographyFragment()

@@ -2,7 +2,6 @@
 
 package com.functionalkotlin.bandhookkotlin.ui.presenter
 
-import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetArtistDetailInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInteractor
@@ -15,7 +14,6 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ArtistDetailDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,7 +53,7 @@ class ArtistPresenterTest {
 
 
         artistPresenter = ArtistPresenter(artistView, bus, artistDetailInteractor, topAlbumsInteractor,
-                interactorExecutor, artistDetailMapper, albumsMapper)
+            interactorExecutor, artistDetailMapper, albumsMapper)
     }
 
     @Test

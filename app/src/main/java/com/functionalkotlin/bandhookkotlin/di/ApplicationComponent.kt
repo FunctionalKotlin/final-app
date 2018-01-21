@@ -13,10 +13,10 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
-        ApplicationModule::class,
-        DataModule::class,
-        RepositoryModule::class,
-        DomainModule::class
+    ApplicationModule::class,
+    DataModule::class,
+    RepositoryModule::class,
+    DomainModule::class
 ))
 interface ApplicationComponent {
 

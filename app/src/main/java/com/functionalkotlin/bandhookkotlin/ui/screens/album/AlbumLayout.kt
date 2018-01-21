@@ -38,9 +38,9 @@ class AlbumLayout : ActivityAnkoComponent<AlbumActivity> {
             }.lparams(width = matchParent)
 
             toolbar = themedToolbar(R.style.ThemeOverlay_AppCompat_Dark_ActionBar)
-                    .lparams(width = matchParent) {
-                        topMargin = dimen(R.dimen.statusbar_height)
-                    }
+                .lparams(width = matchParent) {
+                    topMargin = dimen(R.dimen.statusbar_height)
+                }
 
             listCard = cardView {
                 radius = dip(2).toFloat()

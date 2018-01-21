@@ -7,7 +7,7 @@ import com.birbit.android.jobqueue.Params
 import com.birbit.android.jobqueue.RetryConstraint
 
 class InteractorWrapper(val interactor: Interactor, priority: InteractorPriority, val bus: Bus) :
-        Job(Params(priority.value).requireNetwork()) {
+    Job(Params(priority.value).requireNetwork()) {
 
     override fun onRun() {
         val event = interactor.invoke()

@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import java.util.LinkedHashMap
 
 class ArtistDetailPagerAdapter(fragmentManager: FragmentManager) :
-    FragmentPagerAdapter(fragmentManager)
-{
+    FragmentPagerAdapter(fragmentManager) {
     val fragments = LinkedHashMap<Fragment, String>()
 
     override fun getItem(position: Int): Fragment? = fragments.keys.elementAt(position)

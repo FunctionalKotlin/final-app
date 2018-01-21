@@ -17,15 +17,18 @@ import dagger.Provides
 @Module
 class MainActivityModule(activity: MainActivity) : ActivityModule(activity) {
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideMainView(): MainView = activity as MainView
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideImageTitleMapper() = ImageTitleDataMapper()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideMainPresenter(
         view: MainView, bus: Bus, recommendedArtistsInteractor: GetRecommendedArtistsInteractor,
         interactorExecutor: InteractorExecutor, imageMapper: ImageTitleDataMapper) =
-            MainPresenter(view, bus, recommendedArtistsInteractor, interactorExecutor, imageMapper)
+        MainPresenter(view, bus, recommendedArtistsInteractor, interactorExecutor, imageMapper)
 }

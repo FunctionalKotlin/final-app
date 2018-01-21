@@ -16,17 +16,17 @@ class DomainModule {
 
     @Provides
     fun provideRecommendedArtistsInteractor(artistRepository: ArtistRepository)
-            = GetRecommendedArtistsInteractor(artistRepository)
+        = GetRecommendedArtistsInteractor(artistRepository)
 
     @Provides
     fun provideArtistDetailInteractor(artistRepository: ArtistRepository)
-            = GetArtistDetailInteractor(artistRepository)
+        = GetArtistDetailInteractor(artistRepository)
 
     @Provides
     fun provideTopAlbumsInteractor(albumRepository: AlbumRepository)
-            = GetTopAlbumsInteractor(albumRepository)
+        = GetTopAlbumsInteractor(albumRepository)
 
     @Provides
     fun provideAlbumsDetailInteractor(albumRepository: AlbumRepository)
-            = GetAlbumDetailInteractor(albumRepository)
+        = GetAlbumDetailInteractor(albumRepository)
 }

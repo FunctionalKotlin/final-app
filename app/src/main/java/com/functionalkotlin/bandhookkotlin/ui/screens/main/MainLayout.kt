@@ -38,10 +38,10 @@ class MainLayout : ActivityAnkoComponent<MainActivity> {
             }.lparams(width = matchParent)
 
             recycler = autoFitRecycler()
-                    .apply(AutofitRecyclerView::style)
-                    .lparams(matchParent, matchParent) {
-                        behavior = AppBarLayout.ScrollingViewBehavior()
-                    }
+                .apply(AutofitRecyclerView::style)
+                .lparams(matchParent, matchParent) {
+                    behavior = AppBarLayout.ScrollingViewBehavior()
+                }
         }
     }
 }

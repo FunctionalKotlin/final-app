@@ -10,14 +10,14 @@ class LastFmRequestInterceptor(val apiKey: String, val cacheDuration: Int) : Int
         val request = chain.request()
 
         val url = request.url().newBuilder()
-                .addQueryParameter("api_key", apiKey)
-                .addQueryParameter("format", "json")
-                .build()
+            .addQueryParameter("api_key", apiKey)
+            .addQueryParameter("format", "json")
+            .build()
 
         val newRequest = request.newBuilder()
-                .url(url)
-                .addHeader("Cache-Control", "public, max-age=$cacheDuration")
-                .build()
+            .url(url)
+            .addHeader("Cache-Control", "public, max-age=$cacheDuration")
+            .build()
 
         return chain.proceed(newRequest)
     }

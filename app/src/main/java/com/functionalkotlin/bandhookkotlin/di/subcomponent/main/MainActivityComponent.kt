@@ -8,7 +8,7 @@ import dagger.Subcomponent
 
 @ActivityScope
 @Subcomponent(modules = arrayOf(
-        MainActivityModule::class
+    MainActivityModule::class
 ))
 interface MainActivityComponent {
 

@@ -9,9 +9,9 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 class ArtistDetailDataMapper {
 
     fun transform(artist: Artist) = ArtistDetail(
-            artist.id,
-            artist.name,
-            artist.url,
-            artist.bio,
-            artist.albums?.map { ImageTitle(it.id, it.name, it.url) })
+        artist.id,
+        artist.name,
+        artist.url,
+        artist.bio,
+        artist.albums?.map { ImageTitle(it.id, it.name, it.url) })
 }

@@ -40,7 +40,7 @@ class CloudArtistDataSetTest {
     private val language = "lang"
 
     private val lastFmAlbumDetail = LastFmAlbumDetail("album name", artistMbid, "album url", "album artist", "album release",
-            emptyList(), LastFmTracklist(emptyList()))
+        emptyList(), LastFmTracklist(emptyList()))
 
     @Before
     fun setUp() {
@@ -48,8 +48,8 @@ class CloudArtistDataSetTest {
         recommendedArtistList = listOf(lastFmArtist)
 
         lastFmResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())),
-                lastFmArtist, LastFmTopAlbums(emptyList()), LastFmArtistList(recommendedArtistList),
-                lastFmAlbumDetail)
+            lastFmArtist, LastFmTopAlbums(emptyList()), LastFmArtistList(recommendedArtistList),
+            lastFmAlbumDetail)
 
         cloudArtistDataSet = CloudArtistDataSet(language, lastFmService)
 
@@ -82,9 +82,9 @@ class CloudArtistDataSetTest {
         // Given
         val unknownArtisMbid = "unknown artist mbid"
         val unknownArtistResponse = LastFmResponse(LastFmResult(LastFmArtistMatches(emptyList())),
-                LastFmArtist("unknown artist name", null, "unknown artist url"),
-                LastFmTopAlbums(emptyList()),
-                LastFmArtistList(emptyList()), lastFmAlbumDetail)
+            LastFmArtist("unknown artist name", null, "unknown artist url"),
+            LastFmTopAlbums(emptyList()),
+            LastFmArtistList(emptyList()), lastFmAlbumDetail)
         `when`(lastFmService.requestArtistInfo(unknownArtisMbid, language)).thenReturn(FakeCall(Response.success(unknownArtistResponse), null))
 
         // When

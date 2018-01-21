@@ -14,9 +14,9 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * Pulled from: https://github.com/square/retrofit/blob/master/retrofit-mock/src/main/java/retrofit2/mock/Calls.java
  */
-class FakeCall<T>(val response: Response<T>?, val error: IOException?) : Call<T> {
-    val canceled = AtomicBoolean()
-    val executed = AtomicBoolean()
+class FakeCall<T>(private val response: Response<T>?, private val error: IOException?) : Call<T> {
+    private val canceled = AtomicBoolean()
+    private val executed = AtomicBoolean()
 
     init {
         if ((response == null) == (error == null)) {
@@ -26,16 +26,13 @@ class FakeCall<T>(val response: Response<T>?, val error: IOException?) : Call<T>
 
     @Throws(IOException::class)
     override fun execute(): Response<T> {
-        if (!executed.compareAndSet(false, true)) {
-            throw IllegalStateException("Already executed")
+        when {
+            !executed.compareAndSet(false, true) -> throw IllegalStateException("Already executed")
+            canceled.get() -> throw IOException("canceled")
+            response != null -> return response
+            error != null -> throw error
+            else -> throw IOException("Should either have a response or throw exception")
         }
-        if (canceled.get()) {
-            throw IOException("canceled")
-        }
-        if (response != null) {
-            return response
-        }
-        error?.let{ throw error } ?: throw IOException("Should either have a response or throw exception")
     }
 
     override fun enqueue(callback: Callback<T>?) {
@@ -43,12 +40,10 @@ class FakeCall<T>(val response: Response<T>?, val error: IOException?) : Call<T>
             throw IllegalStateException("Already executed")
         }
         callback?.let {
-            if (canceled.get()) {
-                callback.onFailure(this, IOException("canceled"))
-            } else if (response != null) {
-                callback.onResponse(this, response)
-            } else {
-                callback.onFailure(this, error)
+            when {
+                canceled.get() -> callback.onFailure(this, IOException("canceled"))
+                response != null -> callback.onResponse(this, response)
+                else -> callback.onFailure(this, error)
             }
         } ?: throw NullPointerException("callback == null")
     }
@@ -61,6 +56,7 @@ class FakeCall<T>(val response: Response<T>?, val error: IOException?) : Call<T>
 
     override fun clone(): Call<T> = FakeCall(response, error)
 
-    override fun request(): Request = response?.raw()?.request() ?: Request.Builder().url("http://localhost").build()
+    override fun request(): Request = response?.raw()?.request()
+        ?: Request.Builder().url("http://localhost").build()
 }
 

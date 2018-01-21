@@ -14,8 +14,8 @@ fun transform(artists: List<LastFmArtist>): List<Artist> =
 
 fun transform(
     artist: LastFmArtist, imageMapper: ((List<LastFmImage>?) -> String?) = ::getMainImageUrl) =
-        artist.mbid
-            ?.let { Artist(it, artist.name, imageMapper(artist.images), artist.bio?.content) }
+    artist.mbid
+        ?.let { Artist(it, artist.name, imageMapper(artist.images), artist.bio?.content) }
 
 private fun LastFmArtist.hasQualityInfo(): Boolean =
     !hasEmptyMbid() && images != null && images.isNotEmpty()

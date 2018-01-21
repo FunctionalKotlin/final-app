@@ -11,9 +11,11 @@ import dagger.Provides
 @Module
 abstract class ActivityModule(protected val activity: AppCompatActivity) {
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideActivity(): AppCompatActivity = activity
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideActiviyContext(): Context = activity.baseContext
 }

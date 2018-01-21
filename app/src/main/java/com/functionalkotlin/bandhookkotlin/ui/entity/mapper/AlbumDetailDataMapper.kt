@@ -7,7 +7,8 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.AlbumDetail
 
 class AlbumDetailDataMapper {
 
-    fun transform(album: Album?) = album?.let { AlbumDetail(
+    fun transform(album: Album?) = album?.let {
+        AlbumDetail(
             album.id,
             album.name,
             album.url,

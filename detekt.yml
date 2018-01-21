@@ -30,6 +30,8 @@ empty-blocks:
 
 complexity:
   active: true
+  LabeledExpression:
+    active: false
   LongMethod:
     threshold: 20
   LongParameterList:
@@ -39,7 +41,7 @@ complexity:
   ComplexMethod:
     threshold: 10
   TooManyFunctions:
-    threshold: 16
+    threshold: 17
   ComplexCondition:
     threshold: 3
 

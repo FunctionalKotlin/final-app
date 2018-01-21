@@ -21,16 +21,20 @@ import dagger.Provides
 @Module
 class ArtistActivityModule(activity: ArtistActivity) : ActivityModule(activity) {
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideArtistView(): ArtistView = activity as ArtistView
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideArtistDataMapper() = ArtistDetailDataMapper()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideImageTitleDataMapper() = ImageTitleDataMapper()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideActivityPresenter(
         view: ArtistView, bus: Bus,
         artistDetailInteractor: GetArtistDetailInteractor,
@@ -38,13 +42,15 @@ class ArtistActivityModule(activity: ArtistActivity) : ActivityModule(activity) 
         interactorExecutor: InteractorExecutor,
         detailDataMapper: ArtistDetailDataMapper,
         imageTitleDataMapper: ImageTitleDataMapper)
-            = ArtistPresenter(
-                view, bus, artistDetailInteractor, topAlbumsInteractor,
-                interactorExecutor, detailDataMapper, imageTitleDataMapper)
+        = ArtistPresenter(
+        view, bus, artistDetailInteractor, topAlbumsInteractor,
+        interactorExecutor, detailDataMapper, imageTitleDataMapper)
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideAlbumsFragment() = AlbumsFragment()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideBiographyFragment() = BiographyFragment()
 }

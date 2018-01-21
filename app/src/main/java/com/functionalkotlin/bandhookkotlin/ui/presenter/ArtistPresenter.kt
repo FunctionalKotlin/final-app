@@ -17,13 +17,13 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 open class ArtistPresenter(
-        override val view: ArtistView,
-        override val bus: Bus,
-        val artistDetailInteractor: GetArtistDetailInteractor,
-        val topAlbumsInteractor: GetTopAlbumsInteractor,
-        val interactorExecutor: InteractorExecutor,
-        val artistDetailMapper: ArtistDetailDataMapper,
-        val albumsMapper: ImageTitleDataMapper) : Presenter<ArtistView>, AlbumsPresenter {
+    override val view: ArtistView,
+    override val bus: Bus,
+    val artistDetailInteractor: GetArtistDetailInteractor,
+    val topAlbumsInteractor: GetTopAlbumsInteractor,
+    val interactorExecutor: InteractorExecutor,
+    val artistDetailMapper: ArtistDetailDataMapper,
+    val albumsMapper: ImageTitleDataMapper) : Presenter<ArtistView>, AlbumsPresenter {
 
     open fun init(artistId: String) {
         val artistDetailInteractor = artistDetailInteractor

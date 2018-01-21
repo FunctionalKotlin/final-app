@@ -8,11 +8,8 @@ import io.kotlintest.matchers.haveSize
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 
-class TrackMapperTest: StringSpec() {
+class TrackMapperTest : StringSpec() {
     init {
         val lastFmArtist = LastFmArtist("name", "mbid", "url", emptyList(), null, null)
         val lastFmTrack = LastFmTrack("name", 10, null, "url", lastFmArtist)

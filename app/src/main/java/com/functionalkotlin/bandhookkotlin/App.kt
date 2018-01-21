@@ -20,8 +20,8 @@ class App : Application() {
 
     fun initializeDagger() {
         graph = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
+            .applicationModule(ApplicationModule(this))
+            .build()
     }
 }
 

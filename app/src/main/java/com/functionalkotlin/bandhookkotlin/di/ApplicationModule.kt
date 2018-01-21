@@ -21,27 +21,36 @@ import javax.inject.Singleton
 @Module
 class ApplicationModule(private val app: App) {
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideApplication(): App = app
 
-    @Provides @Singleton @ApplicationQualifier
+    @Provides
+    @Singleton
+    @ApplicationQualifier
     fun provideApplicationContext(): Context = app
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideBus(): Bus = BusImpl()
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun providePicasso(@ApplicationQualifier context: Context): Picasso =
         Picasso.Builder(context).build()
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideJobManager(@ApplicationQualifier context: Context): JobManager =
         CustomJobManager(context)
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideInteractorExecutor(jobManager: JobManager, bus: Bus): InteractorExecutor =
         InteractorExecutorImpl(jobManager, bus)
 
-    @Provides @Singleton @LanguageSelection
+    @Provides
+    @Singleton
+    @LanguageSelection
     fun provideLanguageSelection(): String = Locale.getDefault().language
 }

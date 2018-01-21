@@ -14,7 +14,7 @@ data class Just<out A>(val value: A) : Option<A>()
 fun <A, B> Option<A>.map(transform: (A) -> B): Option<B> =
     flatMap { Just(transform(it)) }
 
-fun <A, B> Option<A>.flatMap(transform: (A) -> Option<B>): Option<B> = when(this) {
+fun <A, B> Option<A>.flatMap(transform: (A) -> Option<B>): Option<B> = when (this) {
     is None -> None
     is Just -> transform(this.value)
 }

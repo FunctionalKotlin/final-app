@@ -15,8 +15,8 @@ abstract class BaseAdapter<Item, Component : ViewAnkoComponent<RecyclerView>>(
 
     abstract val bind: Component.(item: Item) -> Unit
 
-    var items: List<Item> by Delegates.observable(emptyList()) {
-        _, _, _ -> notifyDataSetChanged()
+    var items: List<Item> by Delegates.observable(emptyList()) { _, _, _ ->
+        notifyDataSetChanged()
     }
 
     abstract fun onCreateComponent(parent: RecyclerView): Component

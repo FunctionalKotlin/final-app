@@ -13,10 +13,10 @@ class CustomJobManager(context: Context) : JobManager(
 
         private fun getJobManagerConfiguration(context: Context): Configuration =
             Configuration.Builder(context)
-                    .minConsumerCount(1) // always keep at least one consumer alive
-                    .maxConsumerCount(3) // up to 3 consumers at NextOnEditorActionListener time
-                    .loadFactor(3) // 3 jobs per consumer
-                    .consumerKeepAlive(120) // wait 2 minutes
-                    .build()
+                .minConsumerCount(1) // always keep at least one consumer alive
+                .maxConsumerCount(3) // up to 3 consumers at NextOnEditorActionListener time
+                .loadFactor(3) // 3 jobs per consumer
+                .consumerKeepAlive(120) // wait 2 minutes
+                .build()
     }
 }

@@ -69,10 +69,10 @@ class AlbumsFragment : Fragment() {
     }
 
     fun findViewByItemId(id: String): View? = adapter?.findPositionById(id)?.let {
-            val holder = component?.recycler?.findViewHolderForLayoutPosition(it)
-                    as BaseAdapter.BaseViewHolder<ImageTitleAdapter.Component>
-            return holder.ui.image
-        }
+        val holder = component?.recycler?.findViewHolderForLayoutPosition(it)
+            as BaseAdapter.BaseViewHolder<ImageTitleAdapter.Component>
+        return holder.ui.image
+    }
 
     fun showAlbums(albums: List<ImageTitle>) {
         adapter?.items = albums

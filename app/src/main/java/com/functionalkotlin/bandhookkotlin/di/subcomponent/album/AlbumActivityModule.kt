@@ -8,7 +8,6 @@ import com.functionalkotlin.bandhookkotlin.di.ActivityModule
 import com.functionalkotlin.bandhookkotlin.di.scope.ActivityScope
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetAlbumDetailInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
 import com.functionalkotlin.bandhookkotlin.ui.adapter.TracksAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.AlbumDetailDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.TrackDataMapper
@@ -21,24 +20,30 @@ import dagger.Provides
 @Module
 class AlbumActivityModule(activity: AlbumActivity) : ActivityModule(activity) {
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideAlbumView(): AlbumView = activity as AlbumView
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideAlbumDataMapper() = AlbumDetailDataMapper()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideTrackDataMapper() = TrackDataMapper()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideLinearLayoutManager(context: Context) = LinearLayoutManager(context)
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideTracksAdapter() = TracksAdapter()
 
-    @Provides @ActivityScope
+    @Provides
+    @ActivityScope
     fun provideAlbumPresenter(
         view: AlbumView, bus: Bus, albumInteractor: GetAlbumDetailInteractor,
         albumDetailDataMapper: AlbumDetailDataMapper) =
-            AlbumPresenter(view, bus, albumInteractor, albumDetailDataMapper)
+        AlbumPresenter(view, bus, albumInteractor, albumDetailDataMapper)
 }

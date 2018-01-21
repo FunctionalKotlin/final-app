@@ -6,7 +6,9 @@ import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import com.functionalkotlin.bandhookkotlin.functional.*
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
+import com.functionalkotlin.bandhookkotlin.functional.asError
+import com.functionalkotlin.bandhookkotlin.functional.firstSuccessIn
 import com.functionalkotlin.bandhookkotlin.repository.dataset.AlbumDataSet
 
 class AlbumRepositoryImpl(val albumDataSets: List<AlbumDataSet>) : AlbumRepository {

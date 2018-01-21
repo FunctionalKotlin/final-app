@@ -2,7 +2,10 @@
 
 package com.functionalkotlin.bandhookkotlin.functional
 
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 
 typealias FutureTask<A> = Deferred<A>
 

@@ -22,9 +22,9 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.TrackDetail
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.TrackDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumPresenter
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId
+import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.functionalkotlin.bandhookkotlin.ui.util.supportsLollipop
 import com.functionalkotlin.bandhookkotlin.ui.view.AlbumView
-import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.dimen
 import javax.inject.Inject
@@ -66,7 +66,7 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
 
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
         applicationComponent.plus(AlbumActivityModule(this))
-                .injectTo(this)
+            .injectTo(this)
     }
 
     @SuppressLint("NewApi")
@@ -100,7 +100,7 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
     override fun showAlbum(albumDetail: AlbumDetail?) {
 
         albumDetail?.let(this::updateAlbumDetail)
-                ?: postponeTransitions()
+            ?: postponeTransitions()
     }
 
     override fun showAlbumNotFound(e: AlbumNotFound) {
@@ -147,12 +147,12 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
 
     override fun onBackPressed() {
         ui.listCard.animate().alpha(transparent)
-                .onAnimationEnd { supportFinishAfterTransition() }
+            .onAnimationEnd { supportFinishAfterTransition() }
     }
 }
 
 inline fun ViewPropertyAnimator.onAnimationEnd(
-        crossinline continuation: (Animator) -> Unit) {
+    crossinline continuation: (Animator) -> Unit) {
 
     setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {

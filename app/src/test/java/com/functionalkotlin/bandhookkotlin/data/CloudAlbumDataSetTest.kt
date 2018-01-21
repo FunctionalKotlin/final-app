@@ -16,13 +16,15 @@ import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
 import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
 import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
-import com.functionalkotlin.bandhookkotlin.functional.*
+import com.functionalkotlin.bandhookkotlin.functional.Failure
+import com.functionalkotlin.bandhookkotlin.functional.Success
+import com.functionalkotlin.bandhookkotlin.functional.isFailure
+import com.functionalkotlin.bandhookkotlin.functional.isSuccess
+import com.functionalkotlin.bandhookkotlin.functional.runSync
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.whenever
-import io.kotlintest.matchers.beEmpty
-import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 import org.mockito.Mockito.anyString
@@ -33,7 +35,7 @@ const val ALBUM_MBID = "mbid"
 const val ARTIST_MBID = "mbid"
 const val ARTIST_NAME = "name"
 
-class CloudAlbumDataSetTest: StringSpec() {
+class CloudAlbumDataSetTest : StringSpec() {
     init {
         val knownAlbumDetail = LastFmAlbumDetail(
             "name", ALBUM_MBID, "url", "artist", "date", emptyList(), LastFmTracklist(emptyList()))
