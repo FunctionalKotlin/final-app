@@ -3,9 +3,13 @@
 package com.functionalkotlin.bandhookkotlin.repository.dataset
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
+import com.functionalkotlin.bandhookkotlin.domain.entity.RecommendationNotFound
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
 interface ArtistDataSet {
 
-    fun requestRecommendedArtists(): List<Artist>
-    fun requestArtist(id: String): Artist?
+    fun requestArtist(id: String): AsyncResult<Artist, ArtistNotFound>
+    fun requestRecommendedArtists(): AsyncResult<List<Artist>, RecommendationNotFound>
+
 }

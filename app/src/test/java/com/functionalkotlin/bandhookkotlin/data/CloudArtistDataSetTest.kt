@@ -13,6 +13,9 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
 import com.functionalkotlin.bandhookkotlin.data.mapper.artist.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
+import com.functionalkotlin.bandhookkotlin.util.asFailure
+import com.functionalkotlin.bandhookkotlin.util.asSuccess
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -43,17 +46,17 @@ class CloudArtistDataSetTest : StringSpec() {
         val cloudArtistDataSet = CloudArtistDataSet(language, lastFmService)
 
         "requestRecommendedArtists returns recommended artists" {
-            val artists = cloudArtistDataSet.requestRecommendedArtists()
+            val asyncResult = cloudArtistDataSet.requestRecommendedArtists()
 
+            asyncResult.asSuccess { shouldBe(transform(listOf(lastFmArtist))) }
             verify(lastFmService).requestSimilar(cloudArtistDataSet.coldplayMbid)
-            artists shouldBe transform(listOf(lastFmArtist))
         }
 
         "requestArtist should return artist" {
-            val artist = cloudArtistDataSet.requestArtist(ARTIST_MBID)
+            val asyncResult = cloudArtistDataSet.requestArtist(ARTIST_MBID)
 
+            asyncResult.asSuccess { shouldBe(transform(lastFmArtist)) }
             verify(lastFmService).requestArtistInfo(ARTIST_MBID, language)
-            artist shouldBe transform(lastFmArtist)
         }
 
         "requestArtist should return null if unknown id" {
@@ -65,10 +68,10 @@ class CloudArtistDataSetTest : StringSpec() {
             whenever(lastFmService.requestArtistInfo(unknownMbid, language))
                 .thenReturn(fakeCall(unknownArtistResponse))
 
-            val artist = cloudArtistDataSet.requestArtist(unknownMbid)
+            val asyncResult = cloudArtistDataSet.requestArtist(unknownMbid)
 
+            asyncResult.asFailure { shouldBe(ArtistNotFound(unknownMbid)) }
             verify(lastFmService).requestArtistInfo(unknownMbid, language)
-            artist shouldBe null
         }
     }
 
