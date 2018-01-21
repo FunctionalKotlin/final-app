@@ -14,6 +14,8 @@ import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTopAlbums
 import com.functionalkotlin.bandhookkotlin.data.lastfm.model.LastFmTracklist
 import com.functionalkotlin.bandhookkotlin.data.mapper.album.transform
 import com.functionalkotlin.bandhookkotlin.data.mock.FakeCall
+import com.functionalkotlin.bandhookkotlin.domain.entity.AlbumNotFound
+import com.functionalkotlin.bandhookkotlin.functional.*
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
@@ -48,20 +50,22 @@ class CloudAlbumDataSetTest: StringSpec() {
         val cloudAlbumDataSet = CloudAlbumDataSet(lastFmService)
 
         "requestAlbum with valid mbid returns valid album" {
-            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
+            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID).runSync()
 
             verify(lastFmService).requestAlbum(ALBUM_MBID)
-            album shouldBe transform(lastFmResponse.album)
+            album.isSuccess() shouldBe true
+            (album as Success).value shouldBe transform(lastFmResponse.album)
         }
 
         "requestAlbum with unknown mbid returns null" {
             whenever(lastFmService.requestAlbum(ALBUM_MBID))
                 .thenReturn(fakeCall(lastFmResponse(unknownAlbumDetail)))
 
-            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID)
+            val album = cloudAlbumDataSet.requestAlbum(ALBUM_MBID).runSync()
 
             verify(lastFmService).requestAlbum(ALBUM_MBID)
-            album shouldBe null
+            album.isFailure() shouldBe true
+            (album as Failure).error shouldBe AlbumNotFound(ALBUM_MBID)
         }
 
         "requestTopAlbums with valid artist mbid returns valid list" {
