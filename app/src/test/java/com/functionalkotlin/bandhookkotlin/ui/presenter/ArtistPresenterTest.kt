@@ -2,50 +2,67 @@
 
 package com.functionalkotlin.bandhookkotlin.ui.presenter
 
+import com.functionalkotlin.bandhookkotlin.domain.entity.Album
+import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
+import com.functionalkotlin.bandhookkotlin.domain.entity.TopAlbumsNotFound
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetArtistDetailInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInteractor
-import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
-import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
+import com.functionalkotlin.bandhookkotlin.functional.asError
+import com.functionalkotlin.bandhookkotlin.functional.result
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformAlbums
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import io.kotlintest.specs.StringSpec
+import kotlinx.coroutines.experimental.runBlocking
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-class ArtistPresenterTest {
+class ArtistPresenterTest : StringSpec() {
 
-    @Mock
-    private lateinit var artistView: ArtistView
-    @Mock
-    private lateinit var artistRepository: ArtistRepository
-    @Mock
-    private lateinit var albumRepository: AlbumRepository
+    init {
+        val albums = listOf(Album("id", "name", null, null, emptyList()))
+        val artist = Artist("id", "name", null, null, emptyList())
 
-    private lateinit var artistDetailInteractor: GetArtistDetailInteractor
-    private lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
+        val artistView = mock<ArtistView>()
+        val artistDetailInteractor = mock<GetArtistDetailInteractor> {
+            on { getArtist(ARTIST_ID) } doReturn artist.result()
+            on { getArtist("") } doReturn ArtistNotFound("").asError()
+        }
+        val topAlbumsInteractor = mock<GetTopAlbumsInteractor> {
+            on { getTopAlbums(ARTIST_ID) } doReturn albums.result()
+            on { getTopAlbums("") } doReturn TopAlbumsNotFound("").asError()
+        }
 
-    private lateinit var artistPresenter: ArtistPresenter
+        val artistPresenter = ArtistPresenter(
+            artistView, artistDetailInteractor, topAlbumsInteractor)
 
-    @Before
-    fun setUp() {
-        artistDetailInteractor = GetArtistDetailInteractor(artistRepository)
-        topAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
-        artistPresenter = ArtistPresenter(artistView, artistDetailInteractor, topAlbumsInteractor)
+        "onAlbumClicked should rely on view" {
+            artistPresenter.onAlbumClicked(ImageTitle(IMAGE_ID, "name", null))
+
+            verify(artistView).navigateToAlbum(IMAGE_ID)
+        }
+
+        "init with valid artist ID calls interactor and view" {
+            runBlocking { artistPresenter.init(ARTIST_ID) }
+
+            verify(artistDetailInteractor).getArtist(ARTIST_ID)
+            verify(artistView).showArtist(transform(artist))
+            verify(topAlbumsInteractor).getTopAlbums(ARTIST_ID)
+            verify(artistView).showAlbums(transformAlbums(albums))
+        }
+
+        "init with non valid artist ID calls interactor and view" {
+            runBlocking { artistPresenter.init("") }
+
+            verify(artistDetailInteractor).getArtist("")
+            verify(artistView).showArtistNotFound(ArtistNotFound(""))
+            verify(topAlbumsInteractor).getTopAlbums("")
+            verify(artistView).showAlbumsNotFound(TopAlbumsNotFound(""))
+        }
     }
 
-    @Test
-    fun testOnAlbumClicked() {
-        // Given
-        val imageId = "image id"
 
-        // When
-        artistPresenter.onAlbumClicked(ImageTitle(imageId, "image name", null))
-
-        // Then
-        verify(artistView).navigateToAlbum(imageId)
-    }
 }
