@@ -1,6 +1,6 @@
 // Copyright © FunctionalKotlin.com 2018. All rights reserved.
 
-package com.functionalkotlin.bandhookkotlin.ui.presenter
+package com.functionalkotlin.bandhookkotlin.ui.presenter.base
 
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 

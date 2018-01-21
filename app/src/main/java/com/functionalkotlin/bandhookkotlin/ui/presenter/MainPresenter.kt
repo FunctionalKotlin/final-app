@@ -7,6 +7,7 @@ import com.functionalkotlin.bandhookkotlin.functional.fold
 import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformArtists
+import com.functionalkotlin.bandhookkotlin.ui.presenter.base.Presenter
 import com.functionalkotlin.bandhookkotlin.ui.view.MainView
 
 class MainPresenter(

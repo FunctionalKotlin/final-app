@@ -19,7 +19,7 @@ import com.functionalkotlin.bandhookkotlin.ui.adapter.ArtistDetailPagerAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.ArtistDetail
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.fragment.AlbumsFragmentContainer
-import com.functionalkotlin.bandhookkotlin.ui.presenter.AlbumsPresenter
+import com.functionalkotlin.bandhookkotlin.ui.presenter.base.AlbumsPresenter
 import com.functionalkotlin.bandhookkotlin.ui.presenter.ArtistPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId

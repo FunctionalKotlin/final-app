@@ -9,6 +9,8 @@ import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformAlbums
+import com.functionalkotlin.bandhookkotlin.ui.presenter.base.AlbumsPresenter
+import com.functionalkotlin.bandhookkotlin.ui.presenter.base.Presenter
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
