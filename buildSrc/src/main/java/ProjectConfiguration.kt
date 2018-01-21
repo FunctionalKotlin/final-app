@@ -1,4 +1,4 @@
-// Copyright © FunctionalKotlin.com 2018. All rights reserved.
+// Copyright © FunctionalHub.com 2018. All rights reserved.
 
 val kotlinVersion = "1.2.20"
 val androidGradleVersion = "2.3.3"

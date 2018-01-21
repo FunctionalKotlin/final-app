@@ -1,4 +1,4 @@
-// Copyright © FunctionalKotlin.com 2017. All rights reserved.
+// Copyright © FunctionalHub.com 2017. All rights reserved.
 
 package com.functionalkotlin.bandhookkotlin.functional
 
