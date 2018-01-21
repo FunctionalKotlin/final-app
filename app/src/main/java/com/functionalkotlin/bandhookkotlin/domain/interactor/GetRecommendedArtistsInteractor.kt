@@ -2,15 +2,14 @@
 
 package com.functionalkotlin.bandhookkotlin.domain.interactor
 
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Event
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Interactor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistsEvent
+import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.RecommendationNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
-class GetRecommendedArtistsInteractor(val artistRepository: ArtistRepository) : Interactor {
+class GetRecommendedArtistsInteractor(private val artistRepository: ArtistRepository) {
 
-    override fun invoke(): Event {
-        val artists = artistRepository.getRecommendedArtists()
-        return ArtistsEvent(artists)
-    }
+    fun getRecommendedArtists(): AsyncResult<List<Artist>, RecommendationNotFound> =
+        artistRepository.getRecommendedArtists()
+
 }

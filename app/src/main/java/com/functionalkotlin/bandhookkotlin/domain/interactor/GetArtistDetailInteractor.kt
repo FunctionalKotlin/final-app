@@ -2,18 +2,14 @@
 
 package com.functionalkotlin.bandhookkotlin.domain.interactor
 
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Event
-import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Interactor
-import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistDetailEvent
+import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
+import com.functionalkotlin.bandhookkotlin.domain.entity.ArtistNotFound
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
+import com.functionalkotlin.bandhookkotlin.functional.AsyncResult
 
-class GetArtistDetailInteractor(val artistRepository: ArtistRepository) : Interactor {
+class GetArtistDetailInteractor(private val artistRepository: ArtistRepository) {
 
-    var id: String? = null
+    fun getArtist(artistId: String): AsyncResult<Artist, ArtistNotFound> =
+        artistRepository.getArtist(artistId)
 
-    override fun invoke(): Event {
-        val id = this.id ?: throw IllegalStateException("id can´t be null")
-        val artist = artistRepository.getArtist(id)
-        return ArtistDetailEvent(artist)
-    }
 }
