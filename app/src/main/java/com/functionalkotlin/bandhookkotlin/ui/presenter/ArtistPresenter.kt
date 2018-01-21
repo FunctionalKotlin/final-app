@@ -12,8 +12,6 @@ import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transfor
 import com.functionalkotlin.bandhookkotlin.ui.presenter.base.AlbumsPresenter
 import com.functionalkotlin.bandhookkotlin.ui.presenter.base.Presenter
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 open class ArtistPresenter(
     override val view: ArtistView,
@@ -21,18 +19,17 @@ open class ArtistPresenter(
     private val topAlbumsInteractor: GetTopAlbumsInteractor) :
         Presenter<ArtistView>, AlbumsPresenter {
 
-    open fun init(artistId: String) {
-        launch(UI) {
-            topAlbumsInteractor.getTopAlbums(artistId).runAsync {
-                it.fold(
-                    onSuccess = { view.showAlbums(transformAlbums(it)) },
-                    onError = { view.showAlbumsNotFound(it) })
-            }
-            artistDetailInteractor.getArtist(artistId).runAsync {
-                it.fold(
-                    onSuccess = { view.showArtist(transform(it)) },
-                    onError = { view.showArtistNotFound(it) })
-            }
+    suspend fun init(artistId: String) {
+        topAlbumsInteractor.getTopAlbums(artistId).runAsync {
+            it.fold(
+                onSuccess = { view.showAlbums(transformAlbums(it)) },
+                onError = { view.showAlbumsNotFound(it) })
+        }
+
+        artistDetailInteractor.getArtist(artistId).runAsync {
+            it.fold(
+                onSuccess = { view.showArtist(transform(it)) },
+                onError = { view.showArtistNotFound(it) })
         }
     }
 

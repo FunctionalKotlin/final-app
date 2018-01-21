@@ -19,8 +19,8 @@ import com.functionalkotlin.bandhookkotlin.ui.adapter.ArtistDetailPagerAdapter
 import com.functionalkotlin.bandhookkotlin.ui.entity.ArtistDetail
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.fragment.AlbumsFragmentContainer
-import com.functionalkotlin.bandhookkotlin.ui.presenter.base.AlbumsPresenter
 import com.functionalkotlin.bandhookkotlin.ui.presenter.ArtistPresenter
+import com.functionalkotlin.bandhookkotlin.ui.presenter.base.AlbumsPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.album.AlbumActivity
 import com.functionalkotlin.bandhookkotlin.ui.util.getNavigationId
 import com.functionalkotlin.bandhookkotlin.ui.util.into
@@ -28,6 +28,8 @@ import com.functionalkotlin.bandhookkotlin.ui.util.navigate
 import com.functionalkotlin.bandhookkotlin.ui.util.supportsLollipop
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentContainer {
@@ -86,7 +88,10 @@ class ArtistActivity : BaseActivity<ArtistLayout>(), ArtistView, AlbumsFragmentC
 
     override fun onResume() {
         super.onResume()
-        presenter.init(getNavigationId())
+
+        launch(UI) {
+            presenter.init(getNavigationId())
+        }
     }
 
     override fun showArtist(artistDetail: ArtistDetail) {

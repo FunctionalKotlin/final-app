@@ -8,20 +8,16 @@ import com.functionalkotlin.bandhookkotlin.functional.runAsync
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.album.detail.transform
 import com.functionalkotlin.bandhookkotlin.ui.presenter.base.Presenter
 import com.functionalkotlin.bandhookkotlin.ui.view.AlbumView
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 open class AlbumPresenter(
     override val view: AlbumView,
     private val albumInteractor: GetAlbumDetailInteractor) : Presenter<AlbumView> {
 
-    open fun init(albumId: String) {
-        launch(UI) {
-            albumInteractor.getAlbum(albumId).runAsync {
-                it.fold(
-                    onSuccess = { view.showAlbum(transform(it)) },
-                    onError = { view.showAlbumNotFound(it) })
-            }
+    suspend fun init(albumId: String) {
+        albumInteractor.getAlbum(albumId).runAsync {
+            it.fold(
+                onSuccess = { view.showAlbum(transform(it)) },
+                onError = { view.showAlbumNotFound(it) })
         }
     }
 

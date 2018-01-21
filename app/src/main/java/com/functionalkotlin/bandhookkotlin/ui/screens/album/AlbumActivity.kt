@@ -26,6 +26,8 @@ import com.functionalkotlin.bandhookkotlin.ui.util.into
 import com.functionalkotlin.bandhookkotlin.ui.util.supportsLollipop
 import com.functionalkotlin.bandhookkotlin.ui.view.AlbumView
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
@@ -85,7 +87,10 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
 
     override fun onResume() {
         super.onResume()
-        presenter.init(getNavigationId())
+
+        launch(UI) {
+            presenter.init(getNavigationId())
+        }
     }
 
     override fun showAlbum(albumDetail: AlbumDetail?) {
@@ -114,7 +119,9 @@ class AlbumActivity : BaseActivity<AlbumLayout>(), AlbumView {
     }
 
     private fun animateTrackListUp() {
-        ui.listCard.animate().setStartDelay(LIST_ANIMATION_ON_START_DELAY).translationY(NO_TRANSLATION)
+        ui.listCard.animate()
+            .setStartDelay(LIST_ANIMATION_ON_START_DELAY)
+            .translationY(NO_TRANSLATION)
     }
 
     private fun populateTrackList(trackDetails: List<TrackDetail>) {
