@@ -17,10 +17,8 @@ class TrackMapperTest: StringSpec() {
         val lastFmArtist = LastFmArtist("name", "mbid", "url", emptyList(), null, null)
         val lastFmTrack = LastFmTrack("name", 10, null, "url", lastFmArtist)
 
-        val trackMapper = TrackMapper()
-
         "transform valid tracks return valid list" {
-            val tracks = trackMapper.transform(listOf(lastFmTrack, lastFmTrack))
+            val tracks = transform(listOf(lastFmTrack, lastFmTrack))
 
             tracks should haveSize(2)
             lastFmTrack.run {
@@ -32,15 +30,15 @@ class TrackMapperTest: StringSpec() {
         }
 
         "transform null list returns empty list" {
-            trackMapper.transform(null) should haveSize(0)
+            transform(null) should haveSize(0)
         }
 
         "transform empty list returns empty list" {
-            trackMapper.transform(emptyList()) should haveSize(0)
+            transform(emptyList()) should haveSize(0)
         }
 
         "transform track returns track" {
-            trackMapper.transform(lastFmTrack).run {
+            transform(lastFmTrack).run {
                 name shouldBe lastFmTrack.name
                 duration shouldBe lastFmTrack.duration
             }
