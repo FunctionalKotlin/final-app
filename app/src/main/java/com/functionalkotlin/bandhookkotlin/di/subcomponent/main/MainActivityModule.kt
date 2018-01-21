@@ -7,7 +7,6 @@ import com.functionalkotlin.bandhookkotlin.di.scope.ActivityScope
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetRecommendedArtistsInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.MainPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.main.MainActivity
 import com.functionalkotlin.bandhookkotlin.ui.view.MainView
@@ -23,12 +22,8 @@ class MainActivityModule(activity: MainActivity) : ActivityModule(activity) {
 
     @Provides
     @ActivityScope
-    fun provideImageTitleMapper() = ImageTitleDataMapper()
-
-    @Provides
-    @ActivityScope
     fun provideMainPresenter(
         view: MainView, bus: Bus, recommendedArtistsInteractor: GetRecommendedArtistsInteractor,
-        interactorExecutor: InteractorExecutor, imageMapper: ImageTitleDataMapper) =
-        MainPresenter(view, bus, recommendedArtistsInteractor, interactorExecutor, imageMapper)
+        interactorExecutor: InteractorExecutor) =
+        MainPresenter(view, bus, recommendedArtistsInteractor, interactorExecutor)
 }

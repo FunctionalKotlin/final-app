@@ -4,71 +4,65 @@ package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
 
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformAlbums
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformArtists
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.specs.StringSpec
 
-class ImageTitleDataMapperTest {
+class ImageTitleDataMapperTest : StringSpec() {
 
-    lateinit var artists: List<Artist>
-    lateinit var albums: List<Album>
+    init {
 
-    lateinit var imageTitleDataMapper: ImageTitleDataMapper
+        "transformArtists return valid list" {
+            val artist0 = Artist("artist id", "artist name", "artist url")
+            val artist1 = Artist("artist id", "artist name")
+            val artist2 = Artist("artist id", "artist name", "")
 
-    @Before
-    fun setUp() {
-        val artistWithImageUrl = Artist("artist id", "artist name", "artist url")
-        val artistWithoutImageUrl = Artist("artist id", "artist name")
-        val artistWithEmptyImageUrl = Artist("artist id", "artist name", "")
+            val imageTitles = transformArtists(listOf(artist0, artist1, artist2))
 
-        artists = listOf(artistWithImageUrl, artistWithoutImageUrl, artistWithEmptyImageUrl)
+            imageTitles[0].run {
+                id shouldBe artist0.id
+                name shouldBe artist0.name
+                url shouldBe artist0.url
+            }
 
-        val albumWithImageUrl = Album("album id", "album name", artistWithImageUrl, "album url", emptyList())
-        val albumWithoutImageUrl = Album("album id", "album name", artistWithImageUrl, null, emptyList())
-        val albumWithEmptyImageUrl = Album("album id", "album name", artistWithImageUrl, "", emptyList())
+            imageTitles[1].run {
+                id shouldBe artist1.id
+                name shouldBe artist1.name
+                url shouldBe artist1.url
+            }
 
-        albums = listOf(albumWithImageUrl, albumWithoutImageUrl, albumWithEmptyImageUrl)
+            imageTitles[2].run {
+                id shouldBe artist2.id
+                name shouldBe artist2.name
+                url shouldBe null
+            }
+        }
 
-        imageTitleDataMapper = ImageTitleDataMapper()
-    }
+        "transformAlbums return valid list" {
+            val album0 = Album("album id", "album name", null, "album url", emptyList())
+            val album1 = Album("album id", "album name", null, null, emptyList())
+            val album2 = Album("album id", "album name", null, "", emptyList())
 
-    @Test
-    fun testTransformArtists() {
-        // When
-        val imageTitles = imageTitleDataMapper.transformArtists(artists)
+            val imageTitles = transformAlbums(listOf(album0, album1, album2))
 
-        // Then
-        assertEquals(artists[0].id, imageTitles[0].id)
-        assertEquals(artists[0].name, imageTitles[0].name)
-        assertEquals(artists[0].url, imageTitles[0].url)
+            imageTitles[0].run {
+                id shouldBe album0.id
+                name shouldBe album0.name
+                url shouldBe album0.url
+            }
 
-        assertEquals(artists[1].id, imageTitles[1].id)
-        assertEquals(artists[1].name, imageTitles[1].name)
-        assertEquals(artists[1].url, imageTitles[1].url)
+            imageTitles[1].run {
+                id shouldBe album1.id
+                name shouldBe album1.name
+                url shouldBe album1.url
+            }
 
-        assertEquals(artists[2].id, imageTitles[2].id)
-        assertEquals(artists[2].name, imageTitles[2].name)
-        assertNull(imageTitles[2].url)
-    }
-
-    @Test
-    fun testTransformAlbums() {
-        // When
-        val imageTitles = imageTitleDataMapper.transformAlbums(albums)
-
-        // Then
-        assertEquals(albums[0].id, imageTitles[0].id)
-        assertEquals(albums[0].name, imageTitles[0].name)
-        assertEquals(albums[0].url, imageTitles[0].url)
-
-        assertEquals(albums[1].id, imageTitles[1].id)
-        assertEquals(albums[1].name, imageTitles[1].name)
-        assertEquals(albums[1].url, imageTitles[1].url)
-
-        assertEquals(albums[2].id, imageTitles[2].id)
-        assertEquals(albums[2].name, imageTitles[2].name)
-        assertNull(imageTitles[2].url)
+            imageTitles[2].run {
+                id shouldBe album2.id
+                name shouldBe album2.name
+                url shouldBe null
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.GetArtistDetailInte
 import com.functionalkotlin.bandhookkotlin.domain.interactor.GetTopAlbumsInteractor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.presenter.ArtistPresenter
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.AlbumsFragment
 import com.functionalkotlin.bandhookkotlin.ui.screens.detail.ArtistActivity
@@ -26,19 +25,13 @@ class ArtistActivityModule(activity: ArtistActivity) : ActivityModule(activity) 
 
     @Provides
     @ActivityScope
-    fun provideImageTitleDataMapper() = ImageTitleDataMapper()
-
-    @Provides
-    @ActivityScope
     fun provideActivityPresenter(
         view: ArtistView, bus: Bus,
         artistDetailInteractor: GetArtistDetailInteractor,
         topAlbumsInteractor: GetTopAlbumsInteractor,
-        interactorExecutor: InteractorExecutor,
-        imageTitleDataMapper: ImageTitleDataMapper)
+        interactorExecutor: InteractorExecutor)
         = ArtistPresenter(
-        view, bus, artistDetailInteractor, topAlbumsInteractor,
-        interactorExecutor, imageTitleDataMapper)
+        view, bus, artistDetailInteractor, topAlbumsInteractor, interactorExecutor)
 
     @Provides
     @ActivityScope

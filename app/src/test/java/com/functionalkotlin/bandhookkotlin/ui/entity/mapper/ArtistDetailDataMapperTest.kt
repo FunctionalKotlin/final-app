@@ -5,7 +5,7 @@ package com.functionalkotlin.bandhookkotlin.ui.entity.mapper
 import com.functionalkotlin.bandhookkotlin.domain.entity.Album
 import com.functionalkotlin.bandhookkotlin.domain.entity.Artist
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformAlbums
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
@@ -21,7 +21,7 @@ class ArtistDetailDataMapperTest : StringSpec() {
                 id shouldBe artist.id
                 name shouldBe artist.name
                 url shouldBe artist.url
-                albums shouldBe artist.albums?.let(ImageTitleDataMapper()::transformAlbums)
+                albums shouldBe artist.albums?.let(::transformAlbums)
             }
         }
     }

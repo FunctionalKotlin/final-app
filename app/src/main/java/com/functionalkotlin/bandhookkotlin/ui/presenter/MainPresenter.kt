@@ -7,15 +7,14 @@ import com.functionalkotlin.bandhookkotlin.domain.interactor.base.Bus
 import com.functionalkotlin.bandhookkotlin.domain.interactor.base.InteractorExecutor
 import com.functionalkotlin.bandhookkotlin.domain.interactor.event.ArtistsEvent
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
+import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.transformArtists
 import com.functionalkotlin.bandhookkotlin.ui.view.MainView
 
 class MainPresenter(
     override val view: MainView,
     override val bus: Bus,
-    val recommendedArtistsInteractor: GetRecommendedArtistsInteractor,
-    val interactorExecutor: InteractorExecutor,
-    val mapper: ImageTitleDataMapper) : Presenter<MainView> {
+    private val recommendedArtistsInteractor: GetRecommendedArtistsInteractor,
+    private val interactorExecutor: InteractorExecutor) : Presenter<MainView> {
 
     override fun onResume() {
         super.onResume()
@@ -23,7 +22,7 @@ class MainPresenter(
     }
 
     fun onEvent(event: ArtistsEvent) {
-        view.showArtists(mapper.transformArtists(event.artists))
+        view.showArtists(transformArtists(event.artists))
     }
 
     fun onArtistClicked(item: ImageTitle) {

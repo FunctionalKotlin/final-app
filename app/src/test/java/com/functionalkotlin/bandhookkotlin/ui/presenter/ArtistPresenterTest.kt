@@ -12,7 +12,6 @@ import com.functionalkotlin.bandhookkotlin.domain.repository.AlbumRepository
 import com.functionalkotlin.bandhookkotlin.domain.repository.ArtistRepository
 import com.functionalkotlin.bandhookkotlin.ui.entity.ImageTitle
 import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.artist.detail.transform
-import com.functionalkotlin.bandhookkotlin.ui.entity.mapper.image.title.ImageTitleDataMapper
 import com.functionalkotlin.bandhookkotlin.ui.view.ArtistView
 import org.junit.Before
 import org.junit.Test
@@ -37,7 +36,6 @@ class ArtistPresenterTest {
 
     lateinit var artistDetailInteractor: GetArtistDetailInteractor
     lateinit var topAlbumsInteractor: GetTopAlbumsInteractor
-    lateinit var albumsMapper: ImageTitleDataMapper
 
     lateinit var artistPresenter: ArtistPresenter
 
@@ -47,11 +45,10 @@ class ArtistPresenterTest {
     fun setUp() {
         artistDetailInteractor = GetArtistDetailInteractor(artistRepository)
         topAlbumsInteractor = GetTopAlbumsInteractor(albumRepository)
-        albumsMapper = ImageTitleDataMapper()
 
 
         artistPresenter = ArtistPresenter(artistView, bus, artistDetailInteractor, topAlbumsInteractor,
-            interactorExecutor, albumsMapper)
+            interactorExecutor)
     }
 
     @Test
